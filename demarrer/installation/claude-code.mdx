@@ -75,13 +75,15 @@ claude "Liste les outils disponibles dans Imoria."
 
 - Vérifier le chemin de `settings.json`. Claude Code peut utiliser `~/.config/claude/settings.json` selon la plateforme.
 - Lancer `claude --debug` pour voir les chemins effectifs et les erreurs de chargement.
-  </Tab>
+
+</Tab>
 
 <Tab title="Le serveur ne répond pas">
 
 - Tester `curl https://api.imoria.fr/mcp/health`. La réponse attendue est `{"status":"ok"}`.
 - Vérifier que les modalités d'authentification convenues sont correctement appliquées.
-  </Tab>
+
+</Tab>
 
 <Tab title="Erreur TLS / certificat">
 Derrière un proxy d'entreprise avec inspection TLS, configurer `HTTPS_PROXY` et `NODE_EXTRA_CA_CERTS` selon le setup local.
