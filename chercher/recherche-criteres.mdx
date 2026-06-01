@@ -1,9 +1,9 @@
 ---
 title: "Recherche par critères"
-description: Trouver des biens par critères stricts — ville, surface, prix, DPE, type de vendeur, et plus encore.
+description: Trouver des biens par critères stricts. Ville, surface, prix, DPE, type de vendeur, et plus encore.
 ---
 
-C'est l'angle d'attaque classique : la cible est claire — un T2 à Nancy sous 180 k€, par exemple — et l'objectif est la liste exhaustive triée par prix ou par date.
+C'est l'angle d'attaque classique : la cible est claire, un T2 à Nancy sous 180 k€, par exemple, et l'objectif est la liste exhaustive triée par prix ou par date.
 
 <Info>
   Imoria combine sans limite les critères suivants : ville, département, fourchette de prix, surface, nombre de chambres, classe DPE, type de vendeur (particulier ou professionnel), zone custom (polygone), statut (annonce active ou disparue).
@@ -79,8 +79,8 @@ Utile pour comprendre **ce qui se vend vraiment** dans un secteur donné.
 
 ## Limites
 
-- Les **adresses sont parfois masquées** — voir [Limites & couvertures](/ressources/limites-et-couvertures#adresses-masquees-sur-les-annonces).
-- Les **descriptions des annonces sont rédigées par les vendeurs** — la qualité varie. Pour une recherche plus tolérante au flou, [la recherche sémantique](/chercher/recherche-semantique) est mieux adaptée.
+- Les **adresses sont parfois masquées** : voir [Limites & couvertures](/ressources/limites-et-couvertures#adresses-masquees-sur-les-annonces).
+- Les **descriptions des annonces sont rédigées par les vendeurs** : la qualité varie. Pour une recherche plus tolérante au flou, [la recherche sémantique](/chercher/recherche-semantique) est mieux adaptée.
 
 ## Et après ?
 
@@ -89,7 +89,7 @@ Une fois une annonce repérée, deux suites typiques :
 <CardGroup cols={2}>
 
 <Card title="Inspecter l'annonce" href="/chercher/inspecter-annonce" icon="magnifying-glass">
-  Tout savoir sur un bien précis — comparables, parcelle, DPE.
+  Tout savoir sur un bien précis. Comparables, parcelle, DPE.
 </Card>
 
 <Card title="Estimer sa valeur" href="/evaluer/estimer-valeur" icon="scale-balanced">
@@ -98,22 +98,22 @@ Une fois une annonce repérée, deux suites typiques :
 
 </CardGroup>
 
-<Accordion title="Avancé — outil MCP et paramètres">
+<Accordion title="Avancé. Outil MCP et paramètres">
 Cette page utilise principalement `search_ads`. Paramètres clés :
 
-- `query` — texte libre dans le titre ou la description
-- `category` / `archetype` — type de bien
-- `minPrice` / `maxPrice` — fourchette de prix
-- `minSurfaceM2` / `maxSurfaceM2` — fourchette de surface
-- `minBedrooms` / `maxBedrooms` — chambres
-- `sellerType` — `PARTICULIER` | `PRO`
-- `department` — code département (ex. `54`)
-- `city` — nom de ville
-- `polygon` — zone custom (GeoJSON)
-- `energyRate` — DPE minimum
-- `sort` — `price_asc` | `price_desc` | `firstSeen_desc`
-- `status` — `ACTIVE` | `DISAPPEARED`
-- `limit` / `offset` — pagination
+- `query`. Texte libre dans le titre ou la description
+- `category` / `archetype`. Type de bien
+- `minPrice` / `maxPrice`. Fourchette de prix
+- `minSurfaceM2` / `maxSurfaceM2`. Fourchette de surface
+- `minBedrooms` / `maxBedrooms`. Chambres
+- `sellerType`. PARTICULIER` | `PRO`
+- `department`. Code département (ex. `54`)
+- `city`. Nom de ville
+- `polygon`. Zone custom (GeoJSON)
+- `energyRate`. DPE minimum
+- `sort`. price_asc` | `price_desc` | `firstSeen_desc`
+- `status`. ACTIVE` | `DISAPPEARED`
+- `limit` / `offset`. Pagination
 
 Détails complets : [Référence outils](/ressources/reference-outils).
 </Accordion>

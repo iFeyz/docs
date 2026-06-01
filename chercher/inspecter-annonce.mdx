@@ -1,6 +1,6 @@
 ---
 title: "Inspecter une annonce"
-description: Décortiquer une annonce précise — détails du bien, parcelle cadastrale, DPE le plus proche, comparables, contexte de marché.
+description: Décortiquer une annonce précise. Détails du bien, parcelle cadastrale, DPE le plus proche, comparables, contexte de marché.
 ---
 
 Une fois une annonce repérée (via une recherche, ou en collant simplement son URL dans le chat), Imoria peut en faire un audit complet : caractéristiques du bien, contexte de marché, comparables, parcelle cadastrale, DPE.
@@ -98,7 +98,7 @@ Audit cette annonce et complète avec une analyse du quartier dans un rayon de 1
   Voir : adresses-masquees-sur-les-annonces
 </Card>
 
-- Quand l'adresse est masquée, la **liaison à une parcelle cadastrale précise** est impossible — Imoria reste alors à l'échelle de la commune.
+- Quand l'adresse est masquée, la **liaison à une parcelle cadastrale précise** est impossible. Imoria reste alors à l'échelle de la commune.
 - Les données déclaratives (surface, DPE, étage) proviennent du vendeur et ne sont pas vérifiées par Imoria.
 
 ## Et après ?
@@ -119,12 +119,12 @@ Audit cette annonce et complète avec une analyse du quartier dans un rayon de 1
 
 </CardGroup>
 
-<Accordion title="Avancé — outils MCP et paramètres">
+<Accordion title="Avancé. Outils MCP et paramètres">
 Cette page utilise principalement `get_ad_by_id`, parfois combiné avec `estimate_ad_value`, `find_comparables` et `analyze_location` selon ce qui est demandé.
 
 `get_ad_by_id` :
 
-- `adId` (UUID) — identifiant de l'annonce dans Imoria.
+- `adId` (UUID). Identifiant de l'annonce dans Imoria.
 
 Le client IA résout automatiquement une URL d'annonce en `adId` quand c'est nécessaire.
 </Accordion>

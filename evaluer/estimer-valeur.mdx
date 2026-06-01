@@ -20,15 +20,15 @@ Estime la valeur de cette annonce : https://exemple.fr/annonce/1234567
 | Section                | Contenu                                                                                               |
 | ---------------------- | ----------------------------------------------------------------------------------------------------- |
 | **Fourchette P25–P75** | Bornes basses et hautes de la valeur estimée (ex. `162 000 € – 178 000 €`)                            |
-| **Verdict**            | `below` (sous-coté), `in_line` (dans le marché), `above` (sur-coté) — par rapport à la médiane locale |
-| **Confiance**          | `high` / `medium` / `low` — basée sur le nombre de comparables et leur dispersion                     |
+| **Verdict**            | `below` (sous-coté), `in_line` (dans le marché), `above` (sur-coté). Par rapport à la médiane locale |
+| **Confiance**          | `high` / `medium` / `low`. Basée sur le nombre de comparables et leur dispersion                     |
 | **Comparables**        | Les biens similaires utilisés pour le calcul, avec leur prix et leur distance                         |
 | **Calibration DVF**    | Marge typique annonce → vente sur le secteur, si DVF disponible                                       |
 | **DPE le plus proche** | Note A à G du diagnostic le plus proche (ajustement énergétique)                                      |
 | **`coverageNotice`**   | Présent uniquement si DVF n'est pas disponible (Alsace-Moselle)                                       |
 
 <Warning>
-  Le verdict porte sur le **prix demandé** — pas sur le prix final de vente. Une annonce `in_line` peut malgré tout se négocier ; une annonce `below` peut traduire un défaut caché (travaux, copropriété en difficulté, exposition).
+  Le verdict porte sur le **prix demandé** : pas sur le prix final de vente. Une annonce `in_line` peut malgré tout se négocier ; une annonce `below` peut traduire un défaut caché (travaux, copropriété en difficulté, exposition).
 </Warning>
 
 **Exemple de réponse réelle :**
@@ -84,8 +84,8 @@ Donne juste la fourchette de valeur et le verdict, sans détail.
   Voir : alsace-moselle-pas-de-dvf
 </Card>
 
-- En **Alsace-Moselle** (departments 57, 67, 68), l'estimation ne peut s'appuyer que sur les comparables d'annonces — pas de calibration DVF.
-- Pour les **biens atypiques** (lofts, anciens ateliers, granges aménagées), le nombre de comparables est faible et la confiance descend à `low` — utiliser l'estimation comme un ordre de grandeur, pas comme une valeur fiable.
+- En **Alsace-Moselle** (departments 57, 67, 68), l'estimation ne peut s'appuyer que sur les comparables d'annonces. Pas de calibration DVF.
+- Pour les **biens atypiques** (lofts, anciens ateliers, granges aménagées), le nombre de comparables est faible et la confiance descend à `low`. Utiliser l'estimation comme un ordre de grandeur, pas comme une valeur fiable.
 - Les estimations s'appuient sur les **caractéristiques déclarées par le vendeur** (surface, DPE). Une visite reste indispensable pour valider la qualité du bien.
 
 ## Et après ?
@@ -106,10 +106,10 @@ Donne juste la fourchette de valeur et le verdict, sans détail.
 
 </CardGroup>
 
-<Accordion title="Avancé — outil MCP et paramètres">
+<Accordion title="Avancé. Outil MCP et paramètres">
 Cette page utilise `estimate_ad_value`. Paramètre principal :
 
-- `adId` (UUID) — l'annonce à estimer.
+- `adId` (UUID). L'annonce à estimer.
 
 Le résultat contient `valueRange` (P25, P50, P75), `verdict`, `confidence`, `comparables` (liste), `dvfCalibration` (si applicable), `coverageNotice` (si Alsace-Moselle).
 </Accordion>

@@ -1,6 +1,6 @@
 ---
 title: "Trouver des comparables"
-description: Les K biens les plus proches d'une annonce, classés par similarité — typologie, surface, géographie, caractéristiques.
+description: Les K biens les plus proches d'une annonce, classés par similarité. Typologie, surface, géographie, caractéristiques.
 ---
 
 Pour valider ou contester une estimation, le meilleur outil est la **liste des comparables**. Imoria renvoie les K biens les plus proches d'une annonce donnée, classés par similarité (géographique, surface, description).
@@ -78,7 +78,7 @@ Dispersion (P25 - P75):       2 870 - 2 985 €/m²
 
 - **Mêmes typologie et archétype** (appartement T2 vs. appartement T2).
 - **Surface ±20 %** (un 60 m² est comparé à des 50–72 m²).
-- **Proximité géographique** — mêmes commune et secteur en priorité ; élargissement progressif si le pool est trop petit.
+- **Proximité géographique** : mêmes commune et secteur en priorité ; élargissement progressif si le pool est trop petit.
 - **Caractéristiques principales** quand renseignées : étage, DPE, présence d'un extérieur, parking.
 
 Le score de similarité combine ces dimensions. Les comparables sont d'autant plus pertinents que la zone est dense en annonces.
@@ -89,8 +89,8 @@ Le score de similarité combine ces dimensions. Les comparables sont d'autant pl
   Voir : adresses-masquees-sur-les-annonces
 </Card>
 
-- Les comparables provenant d'annonces à adresse masquée sont localisés à la commune, pas à la rue — la distance affichée peut être approximative.
-- Dans une zone à faible densité d'annonces, Imoria élargit le rayon — le score de similarité reste honnête mais les biens sont plus éloignés.
+- Les comparables provenant d'annonces à adresse masquée sont localisés à la commune, pas à la rue. La distance affichée peut être approximative.
+- Dans une zone à faible densité d'annonces, Imoria élargit le rayon. Le score de similarité reste honnête mais les biens sont plus éloignés.
 
 ## Et après ?
 
@@ -106,11 +106,11 @@ Le score de similarité combine ces dimensions. Les comparables sont d'autant pl
 
 </CardGroup>
 
-<Accordion title="Avancé — outil MCP et paramètres">
+<Accordion title="Avancé. Outil MCP et paramètres">
 Cette page utilise `find_comparables`. Paramètres :
 
-- `adId` (UUID) — l'annonce d'origine.
-- `k` — nombre de comparables, 1 à 50, défaut 10.
+- `adId` (UUID). L'annonce d'origine.
+- `k`. Nombre de comparables, 1 à 50, défaut 10.
 
 Retourne une liste d'annonces avec `similarity` (cosinus normalisé, 0 à 1) et `distance` (mètres).
 </Accordion>

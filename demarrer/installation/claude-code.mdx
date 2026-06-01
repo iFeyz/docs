@@ -1,6 +1,6 @@
 ---
 title: "Claude Code (CLI)"
-description: Connecter Imoria à Claude Code — le client CLI d'Anthropic, idéal pour les usages en terminal.
+description: Connecter Imoria à Claude Code. Le client CLI d'Anthropic, idéal pour les usages en terminal.
 ---
 
 Claude Code est le client en ligne de commande officiel d'Anthropic. Il fonctionne dans n'importe quel terminal (macOS, Linux, Windows via WSL) et accepte les serveurs MCP comme Claude Desktop.
@@ -73,13 +73,13 @@ claude "Liste les outils disponibles dans Imoria."
 
 <Tab title="`claude mcp list` ne montre pas Imoria">
 
-- Vérifier le chemin de `settings.json` — Claude Code peut utiliser `~/.config/claude/settings.json` selon la plateforme.
+- Vérifier le chemin de `settings.json`. Claude Code peut utiliser `~/.config/claude/settings.json` selon la plateforme.
 - Lancer `claude --debug` pour voir les chemins effectifs et les erreurs de chargement.
   </Tab>
 
 <Tab title="Le serveur ne répond pas">
 
-- Tester `curl https://api.imoria.fr/mcp/health` — la réponse attendue est `{"status":"ok"}`.
+- Tester `curl https://api.imoria.fr/mcp/health`. La réponse attendue est `{"status":"ok"}`.
 - Vérifier que les modalités d'authentification convenues sont correctement appliquées.
   </Tab>
 

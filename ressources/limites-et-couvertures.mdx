@@ -1,25 +1,25 @@
 ---
 title: "Limites & couvertures"
-description: Les trois limites à garder en tête en lisant les réponses d'Imoria — adresses masquées, Alsace-Moselle, et prix demandé vs. prix vendu.
+description: Les trois limites à garder en tête en lisant les réponses d'Imoria. Adresses masquées, Alsace-Moselle, et prix demandé vs. prix vendu.
 ---
 
-Imoria s'appuie sur des données publiques et des annonces du marché. Comme toute donnée du monde réel, elle a ses zones grises. Trois caveats reviennent régulièrement — autant les connaître avant de prendre une décision.
+Imoria s'appuie sur des données publiques et des annonces du marché. Comme toute donnée du monde réel, elle a ses zones grises. Trois caveats reviennent régulièrement. Autant les connaître avant de prendre une décision.
 
 ## Prix demandé n'est pas prix vendu
 
-Toutes les annonces du catalogue affichent un **prix demandé** — celui fixé par le vendeur. Le prix réellement payé après négociation peut être différent, souvent inférieur de 5 à 12 % selon le marché local.
+Toutes les annonces du catalogue affichent un **prix demandé** : celui fixé par le vendeur. Le prix réellement payé après négociation peut être différent, souvent inférieur de 5 à 12 % selon le marché local.
 
 <Warning>
-  Quand Imoria indique qu'une annonce est sous-cotée de 18 %, cela signifie **par rapport aux prix demandés des biens comparables** — pas par rapport aux prix de vente réels. L'information sert de **point de départ de négociation**, pas de valeur de marché certifiée.
+  Quand Imoria indique qu'une annonce est sous-cotée de 18 %, cela signifie **par rapport aux prix demandés des biens comparables** : pas par rapport aux prix de vente réels. L'information sert de **point de départ de négociation**, pas de valeur de marché certifiée.
 </Warning>
 
 Quand des transactions DVF récentes sont disponibles pour le secteur, Imoria calibre automatiquement l'écart typique entre prix demandés et prix vendus, et l'expose dans le contexte d'estimation.
 
 ## Adresses masquées sur les annonces
 
-Environ **71 % des annonces** affichent une adresse approximative — typiquement le nom de la commune sans rue précise. Pour ces annonces, Imoria stocke un point géographique quelque part dans le polygone de la commune.
+Environ **71 % des annonces** affichent une adresse approximative. Typiquement le nom de la commune sans rue précise. Pour ces annonces, Imoria stocke un point géographique quelque part dans le polygone de la commune.
 
-**Conséquence pratique** : les filtres de proximité (rayon autour d'un point, distance à une école ou à une gare) sont **approximatifs** sur les grandes villes — typiquement ±1 à 3 km pour Nancy, Metz, Strasbourg, Paris. Sur les petites communes, le point est quasi-exact.
+**Conséquence pratique** : les filtres de proximité (rayon autour d'un point, distance à une école ou à une gare) sont **approximatifs** sur les grandes villes. Typiquement ±1 à 3 km pour Nancy, Metz, Strasbourg, Paris. Sur les petites communes, le point est quasi-exact.
 
 <Info>
   Pour une recherche dans un rayon précis (par exemple 500 m d'une gare), élargir le rayon à 1,5–2 km évite de rater des candidats. L'affinage manuel reste possible une fois l'adresse exacte de chaque annonce consultée.
@@ -39,13 +39,13 @@ Concrètement, Imoria **ne dispose pas de l'historique des prix vendus** pour ce
   Pour toute annonce en Moselle (57), Bas-Rhin (67) ou Haut-Rhin (68) :
 
 - L'estimation reste **valide** mais s'appuie sur les **prix demandés des comparables** uniquement.
-- La marge de négociation locale **n'est pas calibrée** — Imoria affiche un `coverageNotice` explicite dans la réponse.
+- La marge de négociation locale **n'est pas calibrée** : Imoria affiche un `coverageNotice` explicite dans la réponse.
 - Pour une transaction historique précise sur une parcelle, le Livre Foncier reste la source officielle.
 </Warning>
 
 ### Comment Imoria le signale
 
-Chaque réponse à un outil d'estimation ou d'analyse de localisation inclut un champ `coverageNotice` quand DVF est indisponible. Le client IA le présente comme un encart explicite — pas comme une note de bas de page.
+Chaque réponse à un outil d'estimation ou d'analyse de localisation inclut un champ `coverageNotice` quand DVF est indisponible. Le client IA le présente comme un encart explicite. Pas comme une note de bas de page.
 
 ## Tableau récapitulatif
 
@@ -57,9 +57,9 @@ Chaque réponse à un outil d'estimation ou d'analyse de localisation inclut un 
 
 ## Sources publiques utilisées par Imoria
 
-- **DVF** — Demandes de Valeurs Foncières (DGFiP, mises à jour semestrielles)
-- **DPE** — Diagnostics de performance énergétique (ADEME, en temps quasi-réel)
-- **Cadastre & parcelles** — IGN BD Parcellaire
-- **POI** — Base permanente des équipements (INSEE BPE)
-- **Géocodage** — BAN (Base Adresse Nationale) et IGN
-- **Annonces** — agrégateur des annonces particulières et professionnelles du marché
+- **DVF** : Demandes de Valeurs Foncières (DGFiP, mises à jour semestrielles)
+- **DPE** : Diagnostics de performance énergétique (ADEME, en temps quasi-réel)
+- **Cadastre & parcelles** : IGN BD Parcellaire
+- **POI** : Base permanente des équipements (INSEE BPE)
+- **Géocodage** : BAN (Base Adresse Nationale) et IGN
+- **Annonces** : agrégateur des annonces particulières et professionnelles du marché

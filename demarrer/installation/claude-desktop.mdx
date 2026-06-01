@@ -1,9 +1,9 @@
 ---
 title: "Claude Desktop"
-description: Connecter Imoria à Claude Desktop — la voie la plus simple pour les utilisateurs non-techniques.
+description: Connecter Imoria à Claude Desktop. La voie la plus simple pour les utilisateurs non-techniques.
 ---
 
-Claude Desktop est l'application officielle d'Anthropic pour macOS et Windows. C'est l'option la plus simple pour la majorité des usages — pas de terminal, pas d'IDE, juste une interface de conversation.
+Claude Desktop est l'application officielle d'Anthropic pour macOS et Windows. C'est l'option la plus simple pour la majorité des usages. Pas de terminal, pas d'IDE, juste une interface de conversation.
 
 <Info>
   Claude Desktop se télécharge sur [claude.ai/download](https://claude.ai/download). Un compte Claude gratuit suffit pour utiliser Imoria.
@@ -40,7 +40,7 @@ Les paramètres d'authentification se configurent ensuite selon les modalités d
 </Step>
 
 <Step title="Sauvegarder et relancer Claude Desktop">
-Sauvegarder le fichier (`Cmd+S` sur macOS, `Ctrl+S` sur Windows), puis **quitter complètement Claude Desktop** (Cmd+Q / Alt+F4 — pas seulement fermer la fenêtre). Relancer ensuite l'application.
+Sauvegarder le fichier (`Cmd+S` sur macOS, `Ctrl+S` sur Windows), puis **quitter complètement Claude Desktop** (Cmd+Q / Alt+F4. Pas seulement fermer la fenêtre). Relancer ensuite l'application.
 </Step>
 
 <Step title="Vérifier la connexion">
@@ -63,7 +63,7 @@ Une icône d'outil apparaît dans la barre d'entrée (un petit symbole signalant
 Claude Desktop n'a pas chargé la configuration :
 
 - Vérifier que l'application a bien été **quittée complètement** (Cmd+Q), pas seulement réduite ou fermée.
-- Ouvrir `claude_desktop_config.json` et vérifier qu'il s'agit de **JSON valide** — pas de virgule en trop, pas de guillemets manquants. Coller le contenu dans [jsonlint.com](https://jsonlint.com) pour valider.
+- Ouvrir `claude_desktop_config.json` et vérifier qu'il s'agit de **JSON valide** : pas de virgule en trop, pas de guillemets manquants. Coller le contenu dans [jsonlint.com](https://jsonlint.com) pour valider.
   </Tab>
 
 <Tab title="Le serveur reste déconnecté">
@@ -71,7 +71,7 @@ Plusieurs causes possibles :
 
 - Vérifier que l'URL est exactement `https://api.imoria.fr/mcp` (sans slash final, sans typo).
 - Vérifier que les modalités d'authentification ont bien été appliquées selon les conditions convenues.
-- Tester la connectivité réseau en ouvrant `https://api.imoria.fr/mcp/health` dans un navigateur — la réponse attendue est un JSON `{"status":"ok"}`.
+- Tester la connectivité réseau en ouvrant `https://api.imoria.fr/mcp/health` dans un navigateur. La réponse attendue est un JSON `{"status":"ok"}`.
   </Tab>
 
 <Tab title="Derrière un proxy d'entreprise">

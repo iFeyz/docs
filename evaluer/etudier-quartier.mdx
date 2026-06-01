@@ -1,6 +1,6 @@
 ---
 title: "Étudier un quartier"
-description: Vue 360° d'un lieu — cadastre, transactions récentes, DPE, distribution des annonces, marge de négociation locale.
+description: Vue 360° d'un lieu. Cadastre, transactions récentes, DPE, distribution des annonces, marge de négociation locale.
 ---
 
 À partir d'un lieu (gare, adresse, intersection), Imoria construit une vue d'ensemble du marché immobilier dans un rayon donné : mutations DVF récentes, prix médian, marge de négociation typique, distribution des annonces actives, DPE les plus proches.
@@ -28,7 +28,7 @@ Analyse le quartier autour de la gare de Thionville dans un rayon de 1 km.
 | **`coverageNotice`**                  | Présent uniquement si DVF n'est pas disponible (Alsace-Moselle)         |
 
 <Warning>
-  **Pour les départements 57 (Moselle), 67 (Bas-Rhin) et 68 (Haut-Rhin)** — la base DVF nationale ne couvre pas ces territoires. Imoria renvoie un `coverageNotice` explicite. L'analyse reste valide pour les annonces du marché (€/m² demandé, distribution, POI), mais la calibration de vente et l'historique des mutations ne sont pas disponibles. La source officielle pour ces transactions est le Livre Foncier. Détails dans [Limites & couvertures](/ressources/limites-et-couvertures#alsace-moselle-pas-de-dvf).
+  **Pour les départements 57 (Moselle), 67 (Bas-Rhin) et 68 (Haut-Rhin)** : la base DVF nationale ne couvre pas ces territoires. Imoria renvoie un `coverageNotice` explicite. L'analyse reste valide pour les annonces du marché (€/m² demandé, distribution, POI), mais la calibration de vente et l'historique des mutations ne sont pas disponibles. La source officielle pour ces transactions est le Livre Foncier. Détails dans [Limites & couvertures](/ressources/limites-et-couvertures#alsace-moselle-pas-de-dvf).
 </Warning>
 
 **Exemple de réponse réelle :**
@@ -66,7 +66,7 @@ POI à 500 m
 Analyse le quartier autour de la mairie de Nancy sur 2 km.
 ```
 
-Plus le rayon est large, plus le secteur est hétérogène — utile pour une vue d'ensemble d'une grande ville.
+Plus le rayon est large, plus le secteur est hétérogène. Utile pour une vue d'ensemble d'une grande ville.
 </Tab>
 
 <Tab title="Centré sur une adresse">
@@ -95,7 +95,7 @@ Analyse ce quartier et dis-moi s'il a du potentiel pour un T2 en location LMNP �
   Voir : adresses-masquees-sur-les-annonces
 </Card>
 
-- La précision géographique des annonces est limitée — voir la note sur les adresses masquées.
+- La précision géographique des annonces est limitée. Voir la note sur les adresses masquées.
 - La marge de négociation est moins fiable sur les zones avec peu de transactions récentes.
 
 ## Et après ?
@@ -112,11 +112,11 @@ Analyse ce quartier et dis-moi s'il a du potentiel pour un T2 en location LMNP �
 
 </CardGroup>
 
-<Accordion title="Avancé — outil MCP et paramètres">
+<Accordion title="Avancé. Outil MCP et paramètres">
 Cette page utilise `analyze_location`. Paramètres :
 
-- `lat` / `lng` — coordonnées GPS du point central.
-- `radiusMeters` — rayon en mètres, défaut 1000, max 10 000.
+- `lat` / `lng`. Coordonnées GPS du point central.
+- `radiusMeters`. Rayon en mètres, défaut 1000, max 10 000.
 
 Si le client IA reçoit un nom de lieu plutôt que des coordonnées, il appelle d'abord `geocode_place` pour obtenir `lat/lng`.
 

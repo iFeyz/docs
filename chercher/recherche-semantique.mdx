@@ -1,9 +1,9 @@
 ---
 title: "Recherche sémantique"
-description: Décrire un bien en langage naturel — Imoria classe les annonces par proximité conceptuelle, même sans mots-clés exacts.
+description: Décrire un bien en langage naturel. Imoria classe les annonces par proximité conceptuelle, même sans mots-clés exacts.
 ---
 
-La recherche par critères suppose une cible bien définie (T2, Nancy, sous 180 k€). La recherche sémantique fonctionne à l'inverse : la description tient en une phrase floue ("une maison de caractère avec du potentiel rénov en Bretagne"), et Imoria classe les annonces qui collent le mieux à l'idée — même si leurs vendeurs n'ont pas utilisé les mêmes mots.
+La recherche par critères suppose une cible bien définie (T2, Nancy, sous 180 k€). La recherche sémantique fonctionne à l'inverse : la description tient en une phrase floue ("une maison de caractère avec du potentiel rénov en Bretagne"), et Imoria classe les annonces qui collent le mieux à l'idée. Même si leurs vendeurs n'ont pas utilisé les mêmes mots.
 
 <Info>
   La recherche sémantique fonctionne sur l'**embedding** du texte des annonces (titre + description). Plus la description est vivante côté vendeur, plus le matching est précis.
@@ -24,7 +24,7 @@ Une liste classée par **similarité sémantique** (score de 0 à 1). Chaque lig
 | `similarity`      | Score de proximité sémantique (1 = très proche, 0,5 = lointain mais possible) |
 | `matchedSnippets` | Extraits du titre/description qui ont contribué au match                      |
 
-Les filtres durs (ville, prix, surface) sont appliqués **avant** le ranking sémantique — ils restent stricts. C'est le **classement** qui est sémantique.
+Les filtres durs (ville, prix, surface) sont appliqués **avant** le ranking sémantique. Ils restent stricts. C'est le **classement** qui est sémantique.
 
 **Exemple de réponse réelle :**
 
@@ -77,7 +77,7 @@ Trouve des maisons adaptées à un projet de chambre d'hôtes en Lorraine, plusi
 ## Limites
 
 - Une description très générique ("un appartement") produit un classement peu différent d'une recherche par critères classique. La recherche sémantique brille quand la description est **spécifique mais non chiffrable**.
-- Les vendeurs qui écrivent des descriptions très courtes ressortent moins bien — leurs annonces sont sémantiquement pauvres.
+- Les vendeurs qui écrivent des descriptions très courtes ressortent moins bien. Leurs annonces sont sémantiquement pauvres.
 
 <Card href="/ressources/limites-et-couvertures#adresses-masquees-sur-les-annonces" icon="link" horizontal>
   Voir : adresses-masquees-sur-les-annonces
@@ -97,19 +97,19 @@ Trouve des maisons adaptées à un projet de chambre d'hôtes en Lorraine, plusi
 
 </CardGroup>
 
-<Accordion title="Avancé — outil MCP et paramètres">
+<Accordion title="Avancé. Outil MCP et paramètres">
 Cette page utilise principalement `search_ads_semantic` (et parfois `search_ads_hybrid` quand Imoria combine sémantique et keyword).
 
 Paramètres :
 
-- `query` — texte libre, c'est la requête sémantique
-- `department`, `city`, `polygon` — filtres géographiques durs
-- `minPrice` / `maxPrice` — fourchette de prix
-- `minSurfaceM2` / `maxSurfaceM2` — fourchette de surface
-- `minBedrooms` / `maxBedrooms` — chambres
-- `dpeMinClass` — DPE minimum
-- `nearPoi` — proximité à un type de POI
-- `limit` / `offset` — pagination
+- `query`. Texte libre, c'est la requête sémantique
+- `department`, `city`, `polygon`. Filtres géographiques durs
+- `minPrice` / `maxPrice`. Fourchette de prix
+- `minSurfaceM2` / `maxSurfaceM2`. Fourchette de surface
+- `minBedrooms` / `maxBedrooms`. Chambres
+- `dpeMinClass`. DPE minimum
+- `nearPoi`. Proximité à un type de POI
+- `limit` / `offset`. Pagination
 
 Retourne `similarity` (cosinus, 0–1) en plus des champs d'annonce.
 </Accordion>

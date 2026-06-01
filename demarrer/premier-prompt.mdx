@@ -6,18 +6,18 @@ description: Trois exemples concrets pour valider qu'Imoria est bien connecté e
 Une fois le client configuré, le mieux est d'essayer trois prompts qui couvrent les usages typiques. La connexion est validée et le périmètre devient concret.
 
 <Check>
-  Tous les prompts ci-dessous sont écrits en français naturel — c'est exactement le ton attendu pour parler à Imoria au quotidien. Pas de syntaxe particulière, pas de mots-clés magiques.
+  Tous les prompts ci-dessous sont écrits en français naturel. C'est exactement le ton attendu pour parler à Imoria au quotidien. Pas de syntaxe particulière, pas de mots-clés magiques.
 </Check>
 
-## Prompt 1 — Une recherche simple
+## Prompt 1 : Une recherche simple
 
 ```text title="Recherche"
 Trouve les appartements T2 à Nancy sous 180 000 €, classés du moins cher au plus cher.
 ```
 
-Imoria interroge l'outil `search_ads` et renvoie une liste paginée avec titre, prix, surface, et un lien direct vers chaque annonce. La requête peut être affinée à la volée : "ne garder que ceux avec un DPE de D ou mieux" — Imoria itère.
+Imoria interroge l'outil `search_ads` et renvoie une liste paginée avec titre, prix, surface, et un lien direct vers chaque annonce. La requête peut être affinée à la volée : "ne garder que ceux avec un DPE de D ou mieux". Imoria itère.
 
-## Prompt 2 — Une estimation de valeur
+## Prompt 2 : Une estimation de valeur
 
 ```text title="Estimation"
 Estime la valeur de la première annonce de cette liste.
@@ -34,7 +34,7 @@ Imoria appelle `estimate_ad_value` sur l'annonce, et renvoie :
   Rappel : les prix d'Imoria sont des **prix demandés**, pas des prix vendus. Détails dans [Limites & couvertures](/ressources/limites-et-couvertures#prix-demande-nest-pas-prix-vendu).
 </Warning>
 
-## Prompt 3 — Une analyse de quartier
+## Prompt 3 : Une analyse de quartier
 
 ```text title="Analyse de localisation"
 Analyse le quartier autour de la gare de Metz dans un rayon de 1 km.
@@ -48,7 +48,7 @@ Imoria géocode "gare de Metz", puis appelle `analyze_location` :
 - **DPE le plus proche** s'il y en a un dans le rayon.
 
 <Warning>
-  **Metz est en Moselle (département 57)** — l'Alsace-Moselle n'a pas de DVF disponible. Imoria le signale dans la réponse avec un `coverageNotice`. L'analyse reste valide mais sans calibration de vente, uniquement basée sur les prix demandés. Détails : [Limites & couvertures](/ressources/limites-et-couvertures#alsace-moselle-pas-de-dvf).
+  **Metz est en Moselle (département 57)** : l'Alsace-Moselle n'a pas de DVF disponible. Imoria le signale dans la réponse avec un `coverageNotice`. L'analyse reste valide mais sans calibration de vente, uniquement basée sur les prix demandés. Détails : [Limites & couvertures](/ressources/limites-et-couvertures#alsace-moselle-pas-de-dvf).
 </Warning>
 
 ## Et ensuite ?
@@ -69,7 +69,7 @@ Une fois ces trois prompts validés, explorer les fonctionnalités par thème :
 
 ## Astuces de conversation
 
-- **Enchaîner les actions** : "Audite cette annonce. Donne ses 10 plus proches comparables." — Imoria appelle les outils dans l'ordre.
-- **Affiner sans tout réécrire** : "Refais la recherche mais seulement avec un DPE D ou mieux." — pas besoin de retaper les autres critères.
-- **Mémoriser dans la conversation** : "Garde cette annonce de côté." — le client IA mémorise dans la session courante.
-- **Comparer** : "Compare ces deux annonces — laquelle est la plus intéressante en termes de €/m² et de DPE ?"
+- **Enchaîner les actions** : "Audite cette annonce. Donne ses 10 plus proches comparables.". Imoria appelle les outils dans l'ordre.
+- **Affiner sans tout réécrire** : "Refais la recherche mais seulement avec un DPE D ou mieux.". Pas besoin de retaper les autres critères.
+- **Mémoriser dans la conversation** : "Garde cette annonce de côté.". Le client IA mémorise dans la session courante.
+- **Comparer** : "Compare ces deux annonces. Laquelle est la plus intéressante en termes de €/m² et de DPE ?"

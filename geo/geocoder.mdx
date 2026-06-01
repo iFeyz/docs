@@ -3,7 +3,7 @@ title: "Géocoder un lieu"
 description: Résoudre un nom de lieu français (commune, adresse, gare, POI) en coordonnées GPS avec un score de confiance.
 ---
 
-Imoria s'appuie sur la BAN (Base Adresse Nationale) et les bases IGN pour résoudre un nom de lieu en coordonnées. C'est l'étape implicite de la plupart des analyses géographiques — mais elle peut aussi servir explicitement quand un cadre précis est nécessaire.
+Imoria s'appuie sur la BAN (Base Adresse Nationale) et les bases IGN pour résoudre un nom de lieu en coordonnées. C'est l'étape implicite de la plupart des analyses géographiques. Mais elle peut aussi servir explicitement quand un cadre précis est nécessaire.
 
 <Info>
   Le géocodage est appelé automatiquement quand le prompt mentionne un lieu en mots ("autour de la gare de Metz"). L'invoquer explicitement sert surtout à vérifier qu'Imoria a la bonne interprétation.
@@ -27,7 +27,7 @@ Trouve les coordonnées exactes du centre-ville de Verdun.
 | `label`       | Libellé canonique retourné par la source                        |
 | `source`      | `BAN`, `IGN`, ou base interne POI                               |
 
-Quand plusieurs candidats sortent (ambiguïté), Imoria les présente tous — le contexte du prompt permet généralement de trancher.
+Quand plusieurs candidats sortent (ambiguïté), Imoria les présente tous. Le contexte du prompt permet généralement de trancher.
 
 **Exemple de réponse réelle :**
 
@@ -76,7 +76,7 @@ Imoria liste les candidats avec leur département et leur type, utile pour lever
 ## Limites
 
 - Les **adresses anciennes ou récemment renommées** peuvent ne pas figurer dans la BAN. Dans ce cas, Imoria propose le candidat le plus proche avec un score de confiance dégradé.
-- Les **POI très spécifiques** (petits commerces, professions libérales) ne sont pas tous indexés — préférer un type de POI codifié dans la base INSEE BPE pour les recherches systématiques.
+- Les **POI très spécifiques** (petits commerces, professions libérales) ne sont pas tous indexés. Préférer un type de POI codifié dans la base INSEE BPE pour les recherches systématiques.
 
 ## Et après ?
 
@@ -94,12 +94,12 @@ Le géocodage est rarement une fin en soi. Les usages typiques en aval :
 
 </CardGroup>
 
-<Accordion title="Avancé — outil MCP et paramètres">
+<Accordion title="Avancé. Outil MCP et paramètres">
 Cette page utilise `geocode_place`. Paramètres :
 
-- `query` — texte libre (nom de commune, adresse, POI).
-- `index` — `address` (rues, communes) ou `poi` (équipements). Défaut : automatique.
-- `limit` — nombre max de candidats, 1 à 10, défaut 5.
+- `query`. Texte libre (nom de commune, adresse, POI).
+- `index`. address` (rues, communes) ou `poi` (équipements). Défaut : automatique.
+- `limit`. Nombre max de candidats, 1 à 10, défaut 5.
 
 Retourne `[{ lat, lng, confidence, type, label, source }]`.
 </Accordion>

@@ -1,12 +1,12 @@
 ---
 title: "Qu'est-ce qu'Imoria"
-description: Imoria est un moteur d'analyse immobilière piloté depuis un client IA — Claude Desktop, Cursor, et la plupart des outils compatibles MCP.
+description: Imoria est un moteur d'analyse immobilière piloté depuis un client IA. Claude Desktop, Cursor, et la plupart des outils compatibles MCP.
 ---
 
-Imoria est un moteur d'analyse immobilière interrogeable en langage naturel depuis un client IA. Les questions se posent en français ; Imoria interroge en direct les annonces particulières et professionnelles, croise les transactions récentes, et renvoie des réponses exploitables — pas du texte marketing.
+Imoria est un moteur d'analyse immobilière interrogeable en langage naturel depuis un client IA. Les questions se posent en français ; Imoria interroge en direct les annonces particulières et professionnelles, croise les transactions récentes, et renvoie des réponses exploitables. Pas du texte marketing.
 
 <Info>
-  Imoria fonctionne aujourd'hui **uniquement via MCP** (Model Context Protocol). La connexion s'établit depuis un client IA compatible — Claude Desktop, Cursor, et plusieurs autres — qui sert d'interface conversationnelle.
+  Imoria fonctionne aujourd'hui **uniquement via MCP** (Model Context Protocol). La connexion s'établit depuis un client IA compatible, Claude Desktop, Cursor, et plusieurs autres, qui sert d'interface conversationnelle.
 </Info>
 
 ## Ce qu'Imoria permet de faire
@@ -38,7 +38,7 @@ Imoria renvoie une **fourchette P25–P75** (ex. `162 000 € – 178 000 €`),
 </Tab>
 
 <Tab title="Étudier">
-**Vue 360° d'un quartier — DVF récentes, marge de négociation, distribution des annonces, POI.**
+**Vue 360° d'un quartier. DVF récentes, marge de négociation, distribution des annonces, POI.**
 
 ```
 Analyse le quartier autour de la gare de Metz sur 1 km.
@@ -50,7 +50,7 @@ Cadastre, prix médian local, marge de négociation typique (calibrée DVF), dis
 </Tab>
 
 <Tab title="Comparer">
-**Évolution dans le temps d'un marché — €/m² médian, volumes d'offres, sur 18 mois.**
+**Évolution dans le temps d'un marché. /m² médian, volumes d'offres, sur 18 mois.**
 
 ```
 Compare l'évolution du €/m² médian des T3 entre Nancy et Metz sur 18 mois.
@@ -101,16 +101,16 @@ Série temporelle bucketée par mois (ou semaine, ou trimestre), avec moyenne mo
 
 ## À qui Imoria s'adresse
 
-Aux **chasseurs immobiliers**, **investisseurs LMNP** et **acquéreurs particuliers** qui veulent une vue de marché honnête et un assistant capable d'analyser une annonce ou un quartier en quelques secondes. Une habitude basique d'un client IA (Claude Desktop, Cursor) suffit — tout le reste se passe en langage naturel.
+Aux **chasseurs immobiliers**, **investisseurs LMNP** et **acquéreurs particuliers** qui veulent une vue de marché honnête et un assistant capable d'analyser une annonce ou un quartier en quelques secondes. Une habitude basique d'un client IA (Claude Desktop, Cursor) suffit. Tout le reste se passe en langage naturel.
 
 ## Sources publiques croisées
 
 Six sources sont croisées sur chaque requête : annonces particulières et professionnelles, DVF (DGFiP), DPE (ADEME), cadastre (IGN), POI (INSEE BPE), géocodage (BAN). Le résultat est plus riche que ce que chaque source individuelle peut fournir.
 
-## Couverture & limites — en deux mots
+## Couverture & limites : en deux mots
 
 - Les **prix demandés** ne sont pas des **prix de vente**. Imoria le rappelle à chaque estimation.
-- L'**Alsace-Moselle** (départements 57, 67, 68) n'apparaît pas dans la base DVF nationale, pour des raisons de droit local — la calibration y est moins fine.
-- Une partie des annonces masque l'adresse exacte — les filtres géographiques sont approximatifs (±1–3 km) en zone dense.
+- L'**Alsace-Moselle** (départements 57, 67, 68) n'apparaît pas dans la base DVF nationale, pour des raisons de droit local. La calibration y est moins fine.
+- Une partie des annonces masque l'adresse exacte. Les filtres géographiques sont approximatifs (±1–3 km) en zone dense.
 
 Détails complets : [limites & couvertures](/ressources/limites-et-couvertures).

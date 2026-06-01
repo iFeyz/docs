@@ -1,9 +1,9 @@
 ---
 title: "Filtrer par POI"
-description: Restreindre une recherche d'annonces aux biens proches d'un type d'équipement — école, gare, commerce, médecin.
+description: Restreindre une recherche d'annonces aux biens proches d'un type d'équipement. École, gare, commerce, médecin.
 ---
 
-Imoria s'appuie sur la base **BPE** (Base Permanente des Équipements) de l'INSEE, qui recense environ 229 catégories de points d'intérêt — éducation, transport, commerce, santé, sport, services, tourisme. Tout filtre de recherche peut combiner un critère "proche d'un POI de type X dans un rayon Y".
+Imoria s'appuie sur la base **BPE** (Base Permanente des Équipements) de l'INSEE, qui recense environ 229 catégories de points d'intérêt. Éducation, transport, commerce, santé, sport, services, tourisme. Tout filtre de recherche peut combiner un critère "proche d'un POI de type X dans un rayon Y".
 
 <Info>
   La base BPE est mise à jour annuellement par l'INSEE. Les changements rapides (ouverture de commerce, déménagement) peuvent ne pas être reflétés immédiatement.
@@ -43,7 +43,7 @@ Total exact      12
 
 ## Catégories de POI courantes
 
-Quelques exemples utiles pour un usage immo. Pour la liste complète, demander à Imoria "liste les catégories de POI disponibles" — il appelle `list_poi_categories` et renvoie les ~229 codes.
+Quelques exemples utiles pour un usage immo. Pour la liste complète, demander à Imoria "liste les catégories de POI disponibles". Il appelle `list_poi_categories` et renvoie les ~229 codes.
 
 | Domaine             | Exemples                                                     |
 | ------------------- | ------------------------------------------------------------ |
@@ -88,7 +88,7 @@ Liste toutes les catégories de POI disponibles dans le domaine "transport".
 </Card>
 
 - Comme une partie des annonces a une adresse masquée, le filtre "à moins de X mètres d'un POI" est **approximatif en zone dense**. En zone rurale ou en petite commune, l'imprécision est minime.
-- La BPE est annuelle — les **changements récents** (nouveau commerce, fermeture d'école) peuvent ne pas être pris en compte.
+- La BPE est annuelle. Les **changements récents** (nouveau commerce, fermeture d'école) peuvent ne pas être pris en compte.
 - Pour un POI très spécifique non listé dans la BPE, le mieux est de géocoder l'adresse exacte et d'utiliser un filtre `near` (lat/lng + rayon).
 
 ## Et après ?
@@ -105,15 +105,15 @@ Liste toutes les catégories de POI disponibles dans le domaine "transport".
 
 </CardGroup>
 
-<Accordion title="Avancé — outils MCP et paramètres">
+<Accordion title="Avancé. Outils MCP et paramètres">
 Deux outils impliqués selon le besoin :
 
-`list_poi_categories` — sans paramètre, renvoie `[{ code, label, domain, count }]` pour les ~229 catégories BPE.
+`list_poi_categories`. Sans paramètre, renvoie `[{ code, label, domain, count }]` pour les ~229 catégories BPE.
 
 Filtre `nearPoi` (disponible sur `search_ads`, `search_ads_hybrid`, `search_ads_semantic`, `find_undervalued_ads`, `query_real_estate`) :
 
-- `category` — code BPE (ex. `C101` pour école primaire).
-- `radiusMeters` — rayon en mètres.
+- `category`. Code BPE (ex. `C101` pour école primaire).
+- `radiusMeters`. Rayon en mètres.
 
 Plusieurs `nearPoi` peuvent être combinés (ET logique : à la fois proche d'une école ET d'un supermarché).
 </Accordion>

@@ -1,12 +1,12 @@
 ---
 title: "Trouver des annonces sous-cotées"
-description: Imoria classe les annonces qui se vendent moins cher que leurs voisines comparables — liste triée par décote, avec un score et un indice de confiance.
+description: Imoria classe les annonces qui se vendent moins cher que leurs voisines comparables. Liste triée par décote, avec un score et un indice de confiance.
 ---
 
-Imoria classe les annonces actives selon leur écart au prix médian de leur cohorte locale. Le résultat est une liste triée par décote, avec un score et un indice de confiance — utile pour faire émerger des opportunités en quelques secondes.
+Imoria classe les annonces actives selon leur écart au prix médian de leur cohorte locale. Le résultat est une liste triée par décote, avec un score et un indice de confiance. Utile pour faire émerger des opportunités en quelques secondes.
 
 <Info>
-  Fonctionne mieux sur les **T1 à T4 en zones denses** (Nancy, Metz, Épinal). En milieu rural, l'échantillon de comparables est plus petit — la confiance descend mécaniquement.
+  Fonctionne mieux sur les **T1 à T4 en zones denses** (Nancy, Metz, Épinal). En milieu rural, l'échantillon de comparables est plus petit. La confiance descend mécaniquement.
 </Info>
 
 ## Exemple de prompt
@@ -23,11 +23,11 @@ Une liste classée par **décote** (prix demandé vs. médiane de cohorte). Chaq
 | ---------------- | -------------------------------------------------------------------------------- |
 | `prix demandé`   | Prix de l'annonce, tel qu'affiché par le vendeur                                 |
 | `médiane locale` | €/m² médian des biens comparables (même ville, même typologie, surface ±20 %)    |
-| `décote`         | Écart relatif, en % — plus c'est négatif, plus c'est intéressant                 |
-| `confiance`      | `high` / `medium` / `low` — basé sur le nombre de comparables et leur dispersion |
+| `décote`         | Écart relatif, en %. Plus c'est négatif, plus c'est intéressant                 |
+| `confiance`      | `high` / `medium` / `low`. Basé sur le nombre de comparables et leur dispersion |
 
 <Warning>
-  Le prix demandé n'est pas le prix de vente. Une annonce affichée 18 % sous la médiane ne se vendra peut-être pas à ce prix — la décote sert de **point de départ de négociation**, pas de valeur de marché certifiée.
+  Le prix demandé n'est pas le prix de vente. Une annonce affichée 18 % sous la médiane ne se vendra peut-être pas à ce prix. La décote sert de **point de départ de négociation**, pas de valeur de marché certifiée.
 </Warning>
 
 **Exemple de réponse réelle :**
@@ -86,7 +86,7 @@ Même chose mais pour les maisons en Moselle, budget max 250 000 €.
   Voir : alsace-moselle-pas-de-dvf
 </Card>
 
-- Les adresses sont souvent **masquées** sur les annonces — le filtre géographique est approximatif (±1–3 km dans les grandes villes).
+- Les adresses sont souvent **masquées** sur les annonces. Le filtre géographique est approximatif (±1–3 km dans les grandes villes).
 - L'analyse repose sur des **prix demandés**, pas des prix vendus. Les zones avec peu de transactions DVF récentes ont une calibration moins fine.
 
 ## Et après ?
@@ -103,7 +103,7 @@ Même chose mais pour les maisons en Moselle, budget max 250 000 €.
 
 </CardGroup>
 
-<Accordion title="Avancé — outil MCP et paramètres">
+<Accordion title="Avancé. Outil MCP et paramètres">
 Cette page utilise `find_undervalued_ads`. Paramètres utiles :
 
 - `archetype` : `appartement` | `maison`

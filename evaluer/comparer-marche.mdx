@@ -1,6 +1,6 @@
 ---
 title: "Comparer un marché"
-description: Évolution dans le temps d'une métrique de marché — €/m² médian, volumes d'offres — bucketée par semaine, mois ou trimestre.
+description: Évolution dans le temps d'une métrique de marché, €/m² médian, volumes d'offres, bucketée par semaine, mois ou trimestre.
 ---
 
 Imoria sait suivre l'évolution dans le temps d'une métrique de marché (prix médian, volume d'offres, taux de disparition) sur une cohorte précise. Utile pour repérer un point d'entrée, anticiper une tendance, ou comparer deux villes.
@@ -54,13 +54,13 @@ Trailing values (moyenne mobile 3 mois)
 
 ## Métriques disponibles
 
-- `median_ppm2` — €/m² médian (la plus courante)
-- `p25_ppm2` / `p75_ppm2` — bornes basse et haute (dispersion)
-- `median_price` — prix total médian
-- `avg_price` — prix total moyen
-- `active_count` — nombre d'annonces actives sur la cohorte
-- `new_count` — nouvelles annonces apparues dans le bucket
-- `disappeared_count` — annonces ayant disparu dans le bucket
+- `median_ppm2`. /m² médian (la plus courante)
+- `p25_ppm2` / `p75_ppm2`. Bornes basse et haute (dispersion)
+- `median_price`. Prix total médian
+- `avg_price`. Prix total moyen
+- `active_count`. Nombre d'annonces actives sur la cohorte
+- `new_count`. Nouvelles annonces apparues dans le bucket
+- `disappeared_count`. Annonces ayant disparu dans le bucket
 
 ## Variations à essayer
 
@@ -101,7 +101,7 @@ Quelques règles de base pour interpréter les séries Imoria :
 </Card>
 
 - Les séries portent par défaut sur les **prix demandés**, pas vendus. Quand DVF est disponible, une variante calibrée vente peut être demandée explicitement ("compare aussi les prix DVF").
-- Sur des cohortes très étroites, la confiance descend rapidement — préférer alors `trailingPeriods` (lissage glissant) pour lire la tendance.
+- Sur des cohortes très étroites, la confiance descend rapidement. Préférer alors `trailingPeriods` (lissage glissant) pour lire la tendance.
 
 ## Et après ?
 
@@ -112,22 +112,22 @@ Quelques règles de base pour interpréter les séries Imoria :
 </Card>
 
 <Card title="Trouver des sous-cotées" href="/chercher/annonces-sous-cotees" icon="arrow-trend-down">
-  Mettre la tendance en action — chercher les pépites du marché choisi.
+  Mettre la tendance en action. Chercher les pépites du marché choisi.
 </Card>
 
 </CardGroup>
 
-<Accordion title="Avancé — outils MCP et paramètres">
+<Accordion title="Avancé. Outils MCP et paramètres">
 Cette page utilise principalement `query_market_trend`, parfois en complément de `query_real_estate` (mode `aggregate`).
 
 `query_market_trend` paramètres :
 
 - Filtres de cohorte : `archetype`, `department`, `city`, `polygon`, `minPrice`, `maxPrice`, `minSurfaceM2`, `maxSurfaceM2`, `minBedrooms`, `maxBedrooms`, `energyRate`, `nearPoi`.
-- `metric` — voir la liste ci-dessus.
-- `granularity` — `week` | `month` | `quarter`.
-- `dateFrom` / `dateTo` — fenêtre temporelle.
-- `groupBy` — optionnel : `archetype`, `department`, `city`, `energyRate`, `surfaceBand` pour découper.
-- `trailingPeriods` — taille de la moyenne mobile (par exemple 3 pour un lissage sur 3 buckets).
+- `metric`. Voir la liste ci-dessus.
+- `granularity`. week` | `month` | `quarter`.
+- `dateFrom` / `dateTo`. Fenêtre temporelle.
+- `groupBy`. Optionnel : `archetype`, `department`, `city`, `energyRate`, `surfaceBand` pour découper.
+- `trailingPeriods`. Taille de la moyenne mobile (par exemple 3 pour un lissage sur 3 buckets).
 
 Retourne `[{ period, value, sampleSize, confidence, trailingValue }]`.
 </Accordion>
