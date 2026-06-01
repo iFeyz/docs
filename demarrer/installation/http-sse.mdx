@@ -9,43 +9,61 @@ Cette page suppose une familiarité avec HTTP et JSON. C'est la voie technique. 
 
 ## Endpoint
 
-| Champ        | Valeur                                                   |
-| ------------ | -------------------------------------------------------- |
-| Base URL     | `https://api.imoria.net/mcp`                              |
-| Méthode      | POST (appels d'outils), GET (SSE pour les notifications) |
-| Content-Type | `application/json`                                       |
+| Champ        | Valeur                                                  |
+| ------------ | ------------------------------------------------------- |
+| Base URL     | `https://mcp.imoria.net/mcp`                            |
+| Méthode      | POST (JSON-RPC, supporte SSE via header `Accept`)       |
+| Content-Type | `application/json`                                      |
+| Auth         | Header `Authorization` selon les modalités convenues    |
 
-Les modalités d'authentification appliquées dans les requêtes suivent les conditions d'accès convenues avec Imoria.
+Le serveur implémente le profil **Streamable HTTP** du Model Context Protocol. Toutes les opérations passent par la même URL POST `/mcp` ; pas d'endpoint SSE séparé.
 
 ## Vérifier que le serveur répond
 
-```bash title="curl"
-curl -i https://api.imoria.net/mcp/health
+Appel JSON-RPC minimal qui retourne la liste des outils accessibles au caller :
+
+```bash title="Liveness via tools/list"
+curl -X POST -H "Content-Type: application/json" \
+     -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}' \
+     https://mcp.imoria.net/mcp
 ```
 
-Réponse attendue :
+Réponse type :
 
-```json title="200 OK"
-{ "status": "ok", "version": "1.x.x" }
+```json title="Réponse JSON-RPC"
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": {
+    "tools": [
+      { "name": "search_ads",           "description": "...", "inputSchema": { ... } },
+      { "name": "estimate_ad_value",    "description": "...", "inputSchema": { ... } },
+      { "name": "analyze_location",     "description": "...", "inputSchema": { ... } }
+    ]
+  }
+}
 ```
 
-## Lister les outils disponibles
+Le serveur peut aussi renvoyer `401 Unauthorized` si l'authentification est manquante : c'est attendu et signale simplement que le serveur est en ligne.
 
-```bash title="Lister les outils"
-curl -H "Content-Type: application/json" \
-     -X POST https://api.imoria.net/mcp \
-     -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+## Diagnostic rapide (GET)
+
+Une route REST légère liste les outils visibles au caller, utile pour valider l'authentification :
+
+```bash title="GET /mcp/tools"
+curl https://mcp.imoria.net/mcp/tools
 ```
 
-La réponse contient la liste des outils MCP exposés, leur schéma de paramètres, et leur description.
+```json title="Réponse"
+{ "email": "...", "tools": ["search_ads", "estimate_ad_value", "..."] }
+```
 
 ## Appeler un outil
 
-Exemple : chercher les T2 sous-cotés à Nancy sous 180 k€ via l'outil `find_undervalued_ads`.
+Exemple : chercher les T2 sous-cotés à Nancy sous 180 k€ via `find_undervalued_ads`.
 
 ```bash title="Appel d'outil"
-curl -H "Content-Type: application/json" \
-     -X POST https://api.imoria.net/mcp \
+curl -X POST -H "Content-Type: application/json" \
      -d '{
        "jsonrpc": "2.0",
        "id": 2,
@@ -60,18 +78,22 @@ curl -H "Content-Type: application/json" \
            "maxPrice": 180000
          }
        }
-     }'
+     }' \
+     https://mcp.imoria.net/mcp
 ```
 
 Le serveur répond avec un payload JSON-RPC contenant les annonces classées par décote, leur `dealScorePct` et leur `confidence`.
 
 ## Flux SSE (Server-Sent Events)
 
-Pour les outils qui streament leur réponse (analyses longues), la connexion se fait en SSE :
+Pour les outils qui streament leur réponse (analyses longues), ajouter le header `Accept: text/event-stream` au même endpoint POST. Le serveur upgrade la connexion en stream SSE.
 
-```bash title="SSE en bash"
-curl -N -H "Accept: text/event-stream" \
-     https://api.imoria.net/mcp/events
+```bash title="POST /mcp en mode SSE"
+curl -N -X POST \
+     -H "Content-Type: application/json" \
+     -H "Accept: text/event-stream" \
+     -d '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{...}}' \
+     https://mcp.imoria.net/mcp
 ```
 
 Chaque événement arrive sous la forme `data: {...}\n\n` jusqu'à la fin de la session.
@@ -81,7 +103,7 @@ Chaque événement arrive sous la forme `data: {...}\n\n` jusqu'à la fin de la 
 ```python title="Exemple Python"
 import requests
 
-BASE = "https://api.imoria.net/mcp"
+BASE = "https://mcp.imoria.net/mcp"
 
 payload = {
     "jsonrpc": "2.0",

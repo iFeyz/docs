@@ -34,7 +34,7 @@ Claude Code stocke ses serveurs MCP dans `~/.claude/settings.json` (Linux/macOS)
 {
   "mcpServers": {
     "imoria": {
-      "url": "https://api.imoria.net/mcp"
+      "url": "https://mcp.imoria.net/mcp"
     }
   }
 }
@@ -43,7 +43,7 @@ Claude Code stocke ses serveurs MCP dans `~/.claude/settings.json` (Linux/macOS)
 L'ajout via la commande dédiée est également possible :
 
 ```bash title="Ajout via CLI"
-claude mcp add imoria --url https://api.imoria.net/mcp
+claude mcp add imoria --url https://mcp.imoria.net/mcp
 ```
 
 Les paramètres d'authentification s'appliquent selon les modalités d'accès convenues avec Imoria.
@@ -80,7 +80,7 @@ claude "Liste les outils disponibles dans Imoria."
 
 <Tab title="Le serveur ne répond pas">
 
-- Tester `curl https://api.imoria.net/mcp/health`. La réponse attendue est `{"status":"ok"}`.
+- Tester `curl https://mcp.imoria.net/mcp/health`. La réponse attendue est `{"status":"ok"}`.
 - Vérifier que les modalités d'authentification convenues sont correctement appliquées.
 
 </Tab>
