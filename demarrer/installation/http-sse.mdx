@@ -11,7 +11,7 @@ Cette page suppose une familiarité avec HTTP et JSON. C'est la voie technique. 
 
 | Champ        | Valeur                                                   |
 | ------------ | -------------------------------------------------------- |
-| Base URL     | `https://api.imoria.fr/mcp`                              |
+| Base URL     | `https://api.imoria.net/mcp`                              |
 | Méthode      | POST (appels d'outils), GET (SSE pour les notifications) |
 | Content-Type | `application/json`                                       |
 
@@ -20,7 +20,7 @@ Les modalités d'authentification appliquées dans les requêtes suivent les con
 ## Vérifier que le serveur répond
 
 ```bash title="curl"
-curl -i https://api.imoria.fr/mcp/health
+curl -i https://api.imoria.net/mcp/health
 ```
 
 Réponse attendue :
@@ -33,7 +33,7 @@ Réponse attendue :
 
 ```bash title="Lister les outils"
 curl -H "Content-Type: application/json" \
-     -X POST https://api.imoria.fr/mcp \
+     -X POST https://api.imoria.net/mcp \
      -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
 ```
 
@@ -45,7 +45,7 @@ Exemple : chercher les T2 sous-cotés à Nancy sous 180 k€ via l'outil `find_u
 
 ```bash title="Appel d'outil"
 curl -H "Content-Type: application/json" \
-     -X POST https://api.imoria.fr/mcp \
+     -X POST https://api.imoria.net/mcp \
      -d '{
        "jsonrpc": "2.0",
        "id": 2,
@@ -71,7 +71,7 @@ Pour les outils qui streament leur réponse (analyses longues), la connexion se 
 
 ```bash title="SSE en bash"
 curl -N -H "Accept: text/event-stream" \
-     https://api.imoria.fr/mcp/events
+     https://api.imoria.net/mcp/events
 ```
 
 Chaque événement arrive sous la forme `data: {...}\n\n` jusqu'à la fin de la session.
@@ -81,7 +81,7 @@ Chaque événement arrive sous la forme `data: {...}\n\n` jusqu'à la fin de la 
 ```python title="Exemple Python"
 import requests
 
-BASE = "https://api.imoria.fr/mcp"
+BASE = "https://api.imoria.net/mcp"
 
 payload = {
     "jsonrpc": "2.0",

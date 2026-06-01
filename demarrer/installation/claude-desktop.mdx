@@ -28,7 +28,7 @@ Si le fichier est vide, coller ce contenu :
 {
   "mcpServers": {
     "imoria": {
-      "url": "https://api.imoria.fr/mcp"
+      "url": "https://api.imoria.net/mcp"
     }
   }
 }
@@ -70,14 +70,14 @@ Claude Desktop n'a pas chargé la configuration :
 <Tab title="Le serveur reste déconnecté">
 Plusieurs causes possibles :
 
-- Vérifier que l'URL est exactement `https://api.imoria.fr/mcp` (sans slash final, sans typo).
+- Vérifier que l'URL est exactement `https://api.imoria.net/mcp` (sans slash final, sans typo).
 - Vérifier que les modalités d'authentification ont bien été appliquées selon les conditions convenues.
-- Tester la connectivité réseau en ouvrant `https://api.imoria.fr/mcp/health` dans un navigateur. La réponse attendue est un JSON `{"status":"ok"}`.
+- Tester la connectivité réseau en ouvrant `https://api.imoria.net/mcp/health` dans un navigateur. La réponse attendue est un JSON `{"status":"ok"}`.
 
 </Tab>
 
 <Tab title="Derrière un proxy d'entreprise">
-Demander à l'équipe IT d'autoriser `*.imoria.fr` sur le port 443. Les proxies avec inspection TLS peuvent nécessiter une configuration supplémentaire.
+Demander à l'équipe IT d'autoriser `*.imoria.net` sur le port 443. Les proxies avec inspection TLS peuvent nécessiter une configuration supplémentaire.
 </Tab>
 
 </Tabs>
