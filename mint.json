@@ -1,0 +1,117 @@
+{
+  "$schema": "https://mintlify.com/schema.json",
+  "name": "Imoria",
+  "logo": {
+    "light": "/images/imoria-logo-light.svg",
+    "dark": "/images/imoria-logo-dark.svg"
+  },
+  "favicon": "/images/favicon.svg",
+  "colors": {
+    "primary": "#e43416",
+    "light": "#ff5336",
+    "dark": "#e43416",
+    "background": {
+      "light": "#fefcfa",
+      "dark": "#0a0908"
+    },
+    "anchors": {
+      "from": "#e43416",
+      "to": "#ff5336"
+    }
+  },
+  "font": {
+    "headings": { "family": "Inter" },
+    "body": { "family": "Inter" }
+  },
+  "appearance": {
+    "default": "system",
+    "strict": false
+  },
+  "modeToggle": {
+    "default": "system",
+    "isHidden": false
+  },
+  "topbarCtaButton": {
+    "name": "Installation",
+    "url": "/demarrer/installation"
+  },
+  "anchors": [],
+  "tabs": [],
+  "navigation": [
+    {
+      "group": " ",
+      "pages": ["index"]
+    },
+    {
+      "group": "Démarrer",
+      "pages": [
+        "demarrer/installation",
+        {
+          "group": "Installation par client",
+          "pages": [
+            "demarrer/installation/claude-desktop",
+            "demarrer/installation/cursor",
+            "demarrer/installation/claude-code",
+            "demarrer/installation/autres-clients",
+            "demarrer/installation/http-sse"
+          ]
+        },
+        "demarrer/premier-prompt"
+      ]
+    },
+    {
+      "group": "Chercher des biens",
+      "pages": [
+        "chercher/index",
+        "chercher/recherche-criteres",
+        "chercher/recherche-semantique",
+        "chercher/annonces-sous-cotees",
+        "chercher/inspecter-annonce"
+      ]
+    },
+    {
+      "group": "Évaluer & analyser",
+      "pages": [
+        "evaluer/index",
+        "evaluer/estimer-valeur",
+        "evaluer/comparables",
+        "evaluer/etudier-quartier",
+        "evaluer/comparer-marche"
+      ]
+    },
+    {
+      "group": "Outils géo",
+      "pages": [
+        "geo/index",
+        "geo/geocoder",
+        "geo/filtrer-poi"
+      ]
+    },
+    {
+      "group": "Ressources",
+      "pages": [
+        "ressources/index",
+        "ressources/limites-et-couvertures",
+        "ressources/faq",
+        "ressources/glossaire",
+        "ressources/reference-outils"
+      ]
+    }
+  ],
+  "footerSocials": {},
+  "metadata": {
+    "og:site_name": "Imoria — Documentation",
+    "og:type": "website"
+  },
+  "seo": {
+    "indexHiddenPages": false
+  },
+  "feedback": {
+    "thumbsRating": false,
+    "suggestEdit": true,
+    "raiseIssue": true
+  },
+  "search": {
+    "prompt": "Chercher dans la documentation Imoria…"
+  }
+}

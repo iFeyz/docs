@@ -22,7 +22,7 @@ Trouve les T2 sous-cotés à Nancy sous 180 k€.
 
 Imoria classe les annonces actives par décote vs. médiane locale, et renvoie un `dealScorePct` (écart en %) + `confidence` (h/m/l). En quelques secondes, là où une recherche manuelle prendrait des heures de scroll.
 
-[→ Trouver des annonces sous-cotées](chercher/annonces-sous-cotees)
+[→ Trouver des annonces sous-cotées](/chercher/annonces-sous-cotees)
 </Tab>
 
 <Tab title="Estimer">
@@ -34,7 +34,7 @@ Estime cette annonce : https://exemple.fr/annonce/1234567
 
 Imoria renvoie une **fourchette P25–P75** (ex. `162 000 € – 178 000 €`), un verdict (`below` / `in_line` / `above`), et la calibration prix demandé ↔ prix vendu quand DVF est disponible.
 
-[→ Estimer la valeur d'un bien](evaluer/estimer-valeur)
+[→ Estimer la valeur d'un bien](/evaluer/estimer-valeur)
 </Tab>
 
 <Tab title="Étudier">
@@ -46,7 +46,7 @@ Analyse le quartier autour de la gare de Metz sur 1 km.
 
 Cadastre, prix médian local, marge de négociation typique (calibrée DVF), distribution des biens actifs, DPE le plus proche. La couverture Alsace-Moselle est signalée explicitement.
 
-[→ Étudier un quartier](evaluer/etudier-quartier)
+[→ Étudier un quartier](/evaluer/etudier-quartier)
 </Tab>
 
 <Tab title="Comparer">
@@ -58,7 +58,7 @@ Compare l'évolution du €/m² médian des T3 entre Nancy et Metz sur 18 mois.
 
 Série temporelle bucketée par mois (ou semaine, ou trimestre), avec moyenne mobile pour lisser le bruit, et `confidence` par bucket selon la taille de l'échantillon.
 
-[→ Comparer un marché](evaluer/comparer-marche)
+[→ Comparer un marché](/evaluer/comparer-marche)
 </Tab>
 
 </Tabs>
@@ -113,4 +113,4 @@ Six sources sont croisées sur chaque requête : annonces particulières et prof
 - L'**Alsace-Moselle** (départements 57, 67, 68) n'apparaît pas dans la base DVF nationale, pour des raisons de droit local — la calibration y est moins fine.
 - Une partie des annonces masque l'adresse exacte — les filtres géographiques sont approximatifs (±1–3 km) en zone dense.
 
-Détails complets : [limites & couvertures](ressources/limites-et-couvertures).
+Détails complets : [limites & couvertures](/ressources/limites-et-couvertures).
