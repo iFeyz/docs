@@ -1,0 +1,81 @@
+---
+title: "Cursor"
+description: Connecter Imoria à Cursor — l'IDE compatible MCP utilisé par beaucoup de développeurs.
+---
+
+Cursor est un IDE basé sur VS Code avec un support MCP natif. C'est une bonne option pour un usage déjà ancré dans Cursor, ou pour croiser les analyses immo avec d'autres outils intégrés (Linear, GitHub, etc.).
+
+## Étapes
+
+<Steps>
+
+<Step title="Ouvrir les réglages MCP">
+Dans Cursor : **Cursor → Settings → MCP** (ou la palette `Cmd+Shift+P` → "MCP").
+
+La liste des serveurs MCP déjà configurés s'affiche (souvent vide au début).
+</Step>
+
+<Step title="Ajouter le serveur Imoria">
+Cliquer sur **Add new MCP server**, puis renseigner :
+
+| Champ | Valeur                      |
+| ----- | --------------------------- |
+| Name  | `imoria`                    |
+| Type  | `HTTP / SSE`                |
+| URL   | `https://api.imoria.fr/mcp` |
+
+Si Cursor propose d'éditer directement le JSON :
+
+```json title="cursor.mcp.json"
+{
+  "mcpServers": {
+    "imoria": {
+      "url": "https://api.imoria.fr/mcp"
+    }
+  }
+}
+```
+
+Les modalités d'authentification s'appliquent selon ce qui a été convenu avec Imoria.
+</Step>
+
+<Step title="Activer le serveur">
+Retourner dans la liste des serveurs MCP. Le serveur `imoria` apparaît avec un toggle. **L'activer** — Cursor se connecte en arrière-plan.
+
+Au bout de quelques secondes, un indicateur vert ou un compteur "12 tools loaded" apparaît à côté du nom `imoria`.
+</Step>
+
+<Step title="Vérifier depuis le chat">
+Ouvrir le panneau Chat de Cursor (`Cmd+L`) et taper :
+
+```text title="Prompt de vérification"
+Liste les outils disponibles dans Imoria.
+```
+
+La réponse mentionne `search_ads`, `estimate_ad_value`, `analyze_location` et d'autres.
+</Step>
+
+</Steps>
+
+## Diagnostic rapide
+
+<Tabs>
+
+<Tab title="Le serveur reste rouge / déconnecté">
+
+- Vérifier que l'URL est bien `https://api.imoria.fr/mcp` (sans slash final, sans typo).
+- Vérifier que les modalités d'authentification convenues sont correctement appliquées.
+- Désactiver puis réactiver le toggle pour forcer une reconnexion.
+  </Tab>
+
+<Tab title="Cursor ne voit pas les outils">
+
+- Recharger la fenêtre Cursor (`Cmd+Shift+P` → "Reload Window").
+- Vérifier que MCP est bien activé dans **Settings → Features → MCP** (parfois désactivé par défaut sur certaines versions).
+  </Tab>
+
+</Tabs>
+
+## Et après ?
+
+Passer au [Premier prompt](../premier-prompt) pour voir trois exemples concrets.

@@ -1,0 +1,117 @@
+---
+title: "Trouver des annonces sous-cotées"
+description: Imoria classe les annonces qui se vendent moins cher que leurs voisines comparables — liste triée par décote, avec un score et un indice de confiance.
+---
+
+Imoria classe les annonces actives selon leur écart au prix médian de leur cohorte locale. Le résultat est une liste triée par décote, avec un score et un indice de confiance — utile pour faire émerger des opportunités en quelques secondes.
+
+<Info>
+  Fonctionne mieux sur les **T1 à T4 en zones denses** (Nancy, Metz, Épinal). En milieu rural, l'échantillon de comparables est plus petit — la confiance descend mécaniquement.
+</Info>
+
+## Exemple de prompt
+
+```text title="Dans le client IA"
+Trouve les T2 sous-cotés à Nancy sous 180 k€.
+```
+
+## Ce qu'Imoria renvoie
+
+Une liste classée par **décote** (prix demandé vs. médiane de cohorte). Chaque ligne montre :
+
+| Champ            | Signification                                                                    |
+| ---------------- | -------------------------------------------------------------------------------- |
+| `prix demandé`   | Prix de l'annonce, tel qu'affiché par le vendeur                                 |
+| `médiane locale` | €/m² médian des biens comparables (même ville, même typologie, surface ±20 %)    |
+| `décote`         | Écart relatif, en % — plus c'est négatif, plus c'est intéressant                 |
+| `confiance`      | `high` / `medium` / `low` — basé sur le nombre de comparables et leur dispersion |
+
+<Warning>
+  Le prix demandé n'est pas le prix de vente. Une annonce affichée 18 % sous la médiane ne se vendra peut-être pas à ce prix — la décote sert de **point de départ de négociation**, pas de valeur de marché certifiée.
+</Warning>
+
+**Exemple de réponse réelle :**
+
+```text title="Réponse Imoria"
+Résultat — 7 annonces sous-cotées trouvées à Nancy (T2, < 180 k€)
+
+#1  T2 59 m² rue Sergent-Blandan, 165 000 €
+    Décote -18%  ·  Confiance high  ·  €/m² 2 797
+    DPE D  ·  Vendeur PARTICULIER  ·  Première vue il y a 3 j
+    https://exemple.fr/annonce/1234567
+
+#2  T2 52 m² av. Anatole France, 152 000 €
+    Décote -14%  ·  Confiance medium  ·  €/m² 2 923
+    DPE E  ·  Vendeur PRO  ·  Première vue il y a 8 j
+    https://exemple.fr/annonce/2345678
+
+#3  T2 64 m² boulevard Albert 1er, 178 000 €
+    Décote -11%  ·  Confiance high  ·  €/m² 2 781
+    DPE C  ·  Vendeur PARTICULIER  ·  Première vue il y a 2 j
+    https://exemple.fr/annonce/3456789
+
+... [4 de plus]
+
+Cohorte de référence: 28 annonces T2 actives à Nancy
+Médiane locale: 3 410 €/m²  ·  Dispersion (P25–P75): 3 180 – 3 690 €/m²
+```
+
+## Variations à essayer
+
+<Tabs>
+
+<Tab title="Affiner la zone">
+```text
+Trouve les T2 sous-cotés autour de la gare de Metz dans un rayon de 1 km.
+```
+</Tab>
+
+<Tab title="Auditer la première">
+```text
+Prends la première annonce de la liste et donne son estimation détaillée + 10 comparables.
+```
+</Tab>
+
+<Tab title="Élargir aux maisons">
+```text
+Même chose mais pour les maisons en Moselle, budget max 250 000 €.
+```
+</Tab>
+
+</Tabs>
+
+## Limites
+
+<Card href="/ressources/limites-et-couvertures#alsace-moselle-pas-de-dvf" icon="link" horizontal>
+  Voir : alsace-moselle-pas-de-dvf
+</Card>
+
+- Les adresses sont souvent **masquées** sur les annonces — le filtre géographique est approximatif (±1–3 km dans les grandes villes).
+- L'analyse repose sur des **prix demandés**, pas des prix vendus. Les zones avec peu de transactions DVF récentes ont une calibration moins fine.
+
+## Et après ?
+
+<CardGroup cols={2}>
+
+<Card title="Estimer la valeur d'un bien" href="/evaluer/estimer-valeur" icon="scale-balanced">
+  Obtenir une fourchette détaillée P25–P75 sur l'annonce repérée.
+</Card>
+
+<Card title="Comparables" href="/evaluer/comparables" icon="layer-group">
+  Voir les biens utilisés pour calculer la médiane locale.
+</Card>
+
+</CardGroup>
+
+<Accordion title="Avancé — outil MCP et paramètres">
+Cette page utilise `find_undervalued_ads`. Paramètres utiles :
+
+- `archetype` : `appartement` | `maison`
+- `city` / `department` / `polygon` / `near`
+- `minPrice` / `maxPrice` / `minSurfaceM2` / `maxSurfaceM2`
+- `belowMarket` : seuil de décote (défaut ~15 %)
+- `nearPoi` : proximité d'un POI
+- `nearTransaction` : filtre DVF (gated par couverture Alsace-Moselle)
+
+Retourne `dealScorePct` (décote en %) et `confidence` (h/m/l).
+</Accordion>

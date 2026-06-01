@@ -1,55 +1,40 @@
-# Mintlify Starter Kit
+# Imoria — Documentation
 
-Use the starter kit to get your docs deployed and ready to customize.
+Source publique de la documentation Imoria, hébergée sur Mintlify.
 
-Click the green **Use this template** button at the top of this repo to copy the Mintlify starter kit. The starter kit contains examples with
+**Site live** : à configurer dans Mintlify dashboard.
 
-- Guide pages
-- Navigation
-- Customizations
-- API reference pages
-- Use of popular components
+## Stack
 
-**[Follow the full quickstart guide](https://starter.mintlify.com/quickstart)**
+- Mintlify (Free tier) — auto-deploy via GitHub
+- Contenu MDX français, voix impersonnelle / 3e personne
+- Branding Imoria — accent `#e43416` vermillon (OKLch token `oklch(60% 0.215 32)` du design system Imoria)
+- Police Inter (sans, body + heading)
 
-## AI-assisted writing
-
-Set up your AI coding tool to work with Mintlify:
-
-```bash
-npx skills add https://mintlify.com/docs
-```
-
-This command installs Mintlify's documentation skill for your configured AI tools like Claude Code, Cursor, Windsurf, and others. The skill includes component reference, writing standards, and workflow guidance.
-
-See the [AI tools guides](/ai-tools) for tool-specific setup.
-
-## Development
-
-Install the [Mintlify CLI](https://www.npmjs.com/package/mint) to preview your documentation changes locally. To install, use the following command:
+## Structure
 
 ```
-npm i -g mint
+docs.json                 # Mintlify config (theme, nav, branding)
+index.mdx                 # Landing — Qu'est-ce qu'Imoria
+demarrer/                 # Installation + premier prompt
+chercher/                 # Recherche par critères / sémantique / sous-cotées / inspecter
+evaluer/                  # Estimation / comparables / quartier / marché
+geo/                      # Géocodage + filtre POI
+ressources/               # Limites, FAQ, glossaire, référence outils
 ```
 
-Run the following command at the root of your documentation, where your `docs.json` is located:
+## Règles éditoriales
 
-```
-mint dev
-```
+- **Voix** : français impersonnel / 3e personne ("Imoria + verbe", infinitifs, "on"). Jamais "tu" ni "vous".
+- **Mentions interdites** : "Leboncoin", "LBC". Toujours "annonces particulières et professionnelles".
+- **Pas de documentation** : authentification, tokens, quotas, scopes — gérés hors de la doc publique.
+- **Pas d'AI slop** : références Linear / Stripe / Bloomberg, pas Anthropic Discord blob. Pas d'emoji.
+- **Couverture Alsace-Moselle** : signaler explicitement le gap DVF pour les dépts 57, 67, 68 avec `<Warning>`.
 
-View your local preview at `http://localhost:3000`.
+## Workflow
 
-## Publishing changes
+1. Édition locale ou via PR sur ce repo.
+2. Push vers `main` → Mintlify auto-deploy en ~30 sec.
+3. Preview de PR auto-générée par Mintlify sur chaque branche.
 
-Install our GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app) to propagate changes from your repo to your deployment. Changes are deployed to production automatically after pushing to the default branch.
-
-## Need help?
-
-### Troubleshooting
-
-- If your dev environment isn't running: Run `mint update` to ensure you have the most recent version of the CLI.
-- If a page loads as a 404: Make sure you are running in a folder with a valid `docs.json`.
-
-### Resources
-- [Mintlify documentation](https://mintlify.com/docs)
+Source de vérité produit : [`iFeyz/goldsky-lbc` — spec docs v1](https://github.com/iFeyz/goldsky-lbc/blob/main/docs/superpowers/specs/2026-06-01-imoria-gitbook-docs-v1-design.md) (légacy GitBook, contenu identique).

@@ -1,0 +1,105 @@
+---
+title: "Géocoder un lieu"
+description: Résoudre un nom de lieu français (commune, adresse, gare, POI) en coordonnées GPS avec un score de confiance.
+---
+
+Imoria s'appuie sur la BAN (Base Adresse Nationale) et les bases IGN pour résoudre un nom de lieu en coordonnées. C'est l'étape implicite de la plupart des analyses géographiques — mais elle peut aussi servir explicitement quand un cadre précis est nécessaire.
+
+<Info>
+  Le géocodage est appelé automatiquement quand le prompt mentionne un lieu en mots ("autour de la gare de Metz"). L'invoquer explicitement sert surtout à vérifier qu'Imoria a la bonne interprétation.
+</Info>
+
+## Exemple de prompt
+
+```text title="Dans le client IA"
+Trouve les coordonnées exactes du centre-ville de Verdun.
+```
+
+## Ce qu'Imoria renvoie
+
+| Champ         | Signification                                                   |
+| ------------- | --------------------------------------------------------------- |
+| `query`       | La requête initiale                                             |
+| `results`     | Liste des candidats classés par confiance                       |
+| `lat` / `lng` | Coordonnées GPS                                                 |
+| `confidence`  | Score de 0 à 1 sur la qualité du match                          |
+| `type`        | Nature du lieu (`commune`, `address`, `poi`, `intersection`...) |
+| `label`       | Libellé canonique retourné par la source                        |
+| `source`      | `BAN`, `IGN`, ou base interne POI                               |
+
+Quand plusieurs candidats sortent (ambiguïté), Imoria les présente tous — le contexte du prompt permet généralement de trancher.
+
+**Exemple de réponse réelle :**
+
+```text title="Réponse Imoria"
+Géocodage — « Saint-Avold »  (3 candidats)
+
+#1   Saint-Avold (57500)
+     lat 49.1066, lng 6.7053
+     type commune · confiance 0.98 · source BAN
+
+#2   Saint-Avold gare SNCF
+     lat 49.1003, lng 6.7099
+     type poi · confiance 0.92 · source IGN
+
+#3   Saint-Avold (place du marché)
+     lat 49.1071, lng 6.7048
+     type address · confiance 0.74 · source BAN
+```
+
+## Variations à essayer
+
+<Tabs>
+
+<Tab title="Adresse précise">
+```text
+Géocode le 12 rue Saint-Dizier 54000 Nancy.
+```
+</Tab>
+
+<Tab title="POI">
+```text
+Donne-moi les coordonnées de toutes les gares SNCF de Moselle.
+```
+</Tab>
+
+<Tab title="Ambiguïté volontaire">
+```text
+Trouve "Saint-Avold" — je veux voir toutes les options.
+```
+
+Imoria liste les candidats avec leur département et leur type, utile pour lever une homonymie.
+</Tab>
+
+</Tabs>
+
+## Limites
+
+- Les **adresses anciennes ou récemment renommées** peuvent ne pas figurer dans la BAN. Dans ce cas, Imoria propose le candidat le plus proche avec un score de confiance dégradé.
+- Les **POI très spécifiques** (petits commerces, professions libérales) ne sont pas tous indexés — préférer un type de POI codifié dans la base INSEE BPE pour les recherches systématiques.
+
+## Et après ?
+
+Le géocodage est rarement une fin en soi. Les usages typiques en aval :
+
+<CardGroup cols={2}>
+
+<Card title="Étudier un quartier" href="/evaluer/etudier-quartier" icon="map-location-dot">
+  Lancer une analyse 360° autour des coordonnées.
+</Card>
+
+<Card title="Filtrer par POI" href="/filtrer-poi" icon="school">
+  Filtrer une recherche par proximité avec un équipement.
+</Card>
+
+</CardGroup>
+
+<Accordion title="Avancé — outil MCP et paramètres">
+Cette page utilise `geocode_place`. Paramètres :
+
+- `query` — texte libre (nom de commune, adresse, POI).
+- `index` — `address` (rues, communes) ou `poi` (équipements). Défaut : automatique.
+- `limit` — nombre max de candidats, 1 à 10, défaut 5.
+
+Retourne `[{ lat, lng, confidence, type, label, source }]`.
+</Accordion>

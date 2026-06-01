@@ -1,0 +1,74 @@
+---
+title: "FAQ"
+description: Les questions qui reviennent le plus souvent — connexion, périmètre, données, fiabilité.
+---
+
+## Imoria, c'est quoi exactement ?
+
+Un moteur d'analyse immobilière piloté en langage naturel. La question se pose dans un client IA (Claude Desktop, Cursor, etc.), Imoria interroge en direct les annonces et les données publiques, et renvoie une réponse exploitable.
+
+Il ne vend pas un bien et ne se substitue pas à une visite ou à un notaire — il aide à **trier vite et à analyser sérieusement** avant la phase humaine.
+
+## Pourquoi un client IA et pas un site web ?
+
+Parce que la valeur d'Imoria est d'**éviter la friction des formulaires** — décrire ce que l'on cherche en mots, le système comprend, croise les sources, et répond. Un site web ramènerait à des filtres à cliquer.
+
+Un client IA grand public (Claude Desktop ou Cursor) suffit largement et reste gratuit à l'usage en version standard.
+
+## Quelles annonces Imoria voit-il ?
+
+Les annonces particulières et professionnelles publiées sur les principaux agrégateurs français — ce qui représente plus de 80 % du marché secondaire actif à un instant T.
+
+Le rafraîchissement est de l'ordre de quelques minutes pour les annonces récentes, quelques dizaines de minutes pour le reste.
+
+## D'où viennent les estimations de valeur ?
+
+D'une combinaison de :
+
+- Comparables d'annonces actives et récemment disparues (même typologie, même secteur, surface ±20 %).
+- Transactions DVF (Demandes de Valeurs Foncières, DGFiP) sur les 24 derniers mois quand elles sont disponibles.
+- Diagnostic DPE le plus proche, pour ajuster sur la performance énergétique.
+- Données de parcelle (cadastre) pour éviter les confusions de bien.
+
+Le résultat est une **fourchette P25–P75** — pas un chiffre unique. Plus la fourchette est resserrée, plus la confiance est haute.
+
+## Quelle est la couverture géographique ?
+
+La France entière, avec ces nuances :
+
+- **Tout le territoire** pour les annonces du marché.
+- **DVF disponible** pour toute la France **sauf Alsace-Moselle** (départements 57, 67, 68). Détails dans [limites & couvertures](limites-et-couvertures#alsace-moselle-pas-de-dvf).
+- Calibration la plus fine sur les **zones où Imoria a beaucoup d'annonces récentes** — typiquement les agglomérations.
+
+## Est-ce que ça marche en dehors de Claude Desktop ?
+
+Oui. Tout client compatible MCP fonctionne :
+
+- Cursor
+- Claude Code (CLI)
+- Cline (extension VS Code)
+- Windsurf
+- Zed
+- Continue, Goose, OpenCode, et plusieurs autres.
+
+La liste complète est dans [Autres clients MCP](../demarrer/installation/autres-clients).
+
+Pour des intégrations custom (script, app interne), il existe aussi une [connexion HTTP/SSE directe](../demarrer/installation/http-sse).
+
+## Quelles données et prompts sont stockés ?
+
+Imoria garde une trace des appels d'outils pour le bon fonctionnement du service et le débogage — pas le contenu intégral des conversations, juste l'appel à l'outil, ses paramètres, et le résultat retourné. Aucun partage avec un tiers.
+
+Côté client (Claude Desktop, Cursor, etc.), la gestion de la conversation suit la politique de l'éditeur du client. Imoria ne reçoit que les appels d'outils.
+
+## Est-il possible d'automatiser des recherches récurrentes (alertes) ?
+
+Pas dans cette version. Les alertes et les notifications (mail, Telegram) sont en cours de finalisation et seront ajoutées ultérieurement. Pour l'instant, les questions se posent à la demande dans le client.
+
+## Une annonce vient de disparaître — Imoria le sait ?
+
+Oui. Imoria distingue les annonces `ACTIVE` (encore en ligne) et `DISAPPEARED` (retirée du marché). Les deux états peuvent être interrogés — utile pour analyser combien de temps un type de bien reste sur le marché dans une ville donnée.
+
+## Qui est derrière Imoria ?
+
+Une équipe technique basée en France, qui construit le produit comme un outil pour des investisseurs et chasseurs sérieux — pas comme une vitrine marketing.

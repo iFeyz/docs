@@ -1,0 +1,94 @@
+---
+title: "Claude Code (CLI)"
+description: Connecter Imoria à Claude Code — le client CLI d'Anthropic, idéal pour les usages en terminal.
+---
+
+Claude Code est le client en ligne de commande officiel d'Anthropic. Il fonctionne dans n'importe quel terminal (macOS, Linux, Windows via WSL) et accepte les serveurs MCP comme Claude Desktop.
+
+C'est l'option la plus rapide à scripter et à intégrer dans un workflow dev existant.
+
+## Étapes
+
+<Steps>
+
+<Step title="Installer Claude Code">
+Si ce n'est pas déjà fait :
+
+```bash title="Installation"
+npm install -g @anthropic-ai/claude-code
+```
+
+Vérifier l'installation :
+
+```bash title="Test"
+claude --version
+```
+</Step>
+
+<Step title="Ajouter le serveur Imoria">
+Claude Code stocke ses serveurs MCP dans `~/.claude/settings.json` (Linux/macOS) ou `%USERPROFILE%\.claude\settings.json` (Windows).
+
+Éditer ce fichier et ajouter (ou compléter) le bloc `mcpServers` :
+
+```json title="~/.claude/settings.json"
+{
+  "mcpServers": {
+    "imoria": {
+      "url": "https://api.imoria.fr/mcp"
+    }
+  }
+}
+```
+
+L'ajout via la commande dédiée est également possible :
+
+```bash title="Ajout via CLI"
+claude mcp add imoria --url https://api.imoria.fr/mcp
+```
+
+Les paramètres d'authentification s'appliquent selon les modalités d'accès convenues avec Imoria.
+</Step>
+
+<Step title="Vérifier la connexion">
+Lancer la commande de listing :
+
+```bash title="Vérification"
+claude mcp list
+```
+
+`imoria` apparaît dans la liste avec un statut `connected`.
+
+Pour tester un appel concret :
+
+```bash title="Premier appel"
+claude "Liste les outils disponibles dans Imoria."
+```
+</Step>
+
+</Steps>
+
+## Diagnostic rapide
+
+<Tabs>
+
+<Tab title="`claude mcp list` ne montre pas Imoria">
+
+- Vérifier le chemin de `settings.json` — Claude Code peut utiliser `~/.config/claude/settings.json` selon la plateforme.
+- Lancer `claude --debug` pour voir les chemins effectifs et les erreurs de chargement.
+  </Tab>
+
+<Tab title="Le serveur ne répond pas">
+
+- Tester `curl https://api.imoria.fr/mcp/health` — la réponse attendue est `{"status":"ok"}`.
+- Vérifier que les modalités d'authentification convenues sont correctement appliquées.
+  </Tab>
+
+<Tab title="Erreur TLS / certificat">
+Derrière un proxy d'entreprise avec inspection TLS, configurer `HTTPS_PROXY` et `NODE_EXTRA_CA_CERTS` selon le setup local.
+</Tab>
+
+</Tabs>
+
+## Et après ?
+
+Passer au [Premier prompt](../premier-prompt) pour voir trois exemples concrets.

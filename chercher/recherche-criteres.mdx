@@ -1,0 +1,119 @@
+---
+title: "Recherche par critères"
+description: Trouver des biens par critères stricts — ville, surface, prix, DPE, type de vendeur, et plus encore.
+---
+
+C'est l'angle d'attaque classique : la cible est claire — un T2 à Nancy sous 180 k€, par exemple — et l'objectif est la liste exhaustive triée par prix ou par date.
+
+<Info>
+  Imoria combine sans limite les critères suivants : ville, département, fourchette de prix, surface, nombre de chambres, classe DPE, type de vendeur (particulier ou professionnel), zone custom (polygone), statut (annonce active ou disparue).
+</Info>
+
+## Exemple de prompt
+
+```text title="Dans le client IA"
+Trouve les appartements T2 à Nancy sous 180 000 €, classés du moins cher au plus cher. Ne garder que les ventes par particuliers, avec une note DPE de D ou mieux.
+```
+
+## Ce qu'Imoria renvoie
+
+Une liste paginée des annonces qui matchent. Chaque ligne contient :
+
+| Champ                   | Signification                                     |
+| ----------------------- | ------------------------------------------------- |
+| `titre`                 | Titre de l'annonce tel qu'affiché par le vendeur  |
+| `prix demandé`          | Prix annoncé en euros                             |
+| `surface`               | Surface habitable en m² (déclarée par le vendeur) |
+| `pièces` / `chambres`   | Typologie de l'appartement                        |
+| `ville` / `département` | Localisation administrative                       |
+| `dpe`                   | Classe énergétique (A à G) si renseignée          |
+| `sellerType`            | `PARTICULIER` ou `PRO`                            |
+| `firstSeenAt`           | Date de la première fois où Imoria a vu l'annonce |
+| `url`                   | Lien direct vers l'annonce d'origine              |
+
+Par défaut, Imoria renvoie les 20 premiers résultats. Une demande de pagination ("les 50 suivants") suffit pour continuer.
+
+**Exemple de réponse réelle :**
+
+```text title="Réponse Imoria"
+14 annonces trouvées — T2 Nancy, < 180 k€, DPE D+, particuliers
+(trié par prix croissant, page 1/1)
+
+#1   T2 48 m² rue de la Pépinière      138 000 €    DPE C   PARTICULIER
+     5 pièces, étage 2, balcon  ·  Première vue il y a 6 j
+#2   T2 52 m² av. Anatole France       152 000 €    DPE D   PARTICULIER
+     4 pièces, étage 3, cave  ·  Première vue il y a 12 j
+#3   T2 50 m² rue Saint-Léon           158 500 €    DPE D   PARTICULIER
+     4 pièces, RdC, parking  ·  Première vue il y a 4 j
+...
+#14  T2 64 m² boulevard Albert 1er     179 900 €    DPE C   PARTICULIER
+
+Total exact: 14  ·  Cohorte filtrée sur ACTIVE only
+```
+
+## Variations à essayer
+
+<Tabs>
+
+<Tab title="Avec zone custom">
+```text
+Trouve les maisons en Meurthe-et-Moselle (54) entre 200 000 et 350 000 €, avec un terrain d'au moins 500 m², triées par date d'apparition la plus récente.
+```
+</Tab>
+
+<Tab title="Vendeurs pros uniquement">
+```text
+Liste les T3 vendus par des agences à Strasbourg, surface entre 60 et 80 m², budget max 250 000 €.
+```
+</Tab>
+
+<Tab title="Annonces disparues récemment">
+```text
+Montre les T2 à Nancy qui sont passés du statut actif à disparu dans les 30 derniers jours.
+```
+
+Utile pour comprendre **ce qui se vend vraiment** dans un secteur donné.
+</Tab>
+
+</Tabs>
+
+## Limites
+
+- Les **adresses sont parfois masquées** — voir [Limites & couvertures](../ressources/limites-et-couvertures#adresses-masquees-sur-les-annonces).
+- Les **descriptions des annonces sont rédigées par les vendeurs** — la qualité varie. Pour une recherche plus tolérante au flou, [la recherche sémantique](recherche-semantique) est mieux adaptée.
+
+## Et après ?
+
+Une fois une annonce repérée, deux suites typiques :
+
+<CardGroup cols={2}>
+
+<Card title="Inspecter l'annonce" href="/inspecter-annonce" icon="magnifying-glass">
+  Tout savoir sur un bien précis — comparables, parcelle, DPE.
+</Card>
+
+<Card title="Estimer sa valeur" href="/evaluer/estimer-valeur" icon="scale-balanced">
+  Vérifier si le prix est aligné avec le marché local.
+</Card>
+
+</CardGroup>
+
+<Accordion title="Avancé — outil MCP et paramètres">
+Cette page utilise principalement `search_ads`. Paramètres clés :
+
+- `query` — texte libre dans le titre ou la description
+- `category` / `archetype` — type de bien
+- `minPrice` / `maxPrice` — fourchette de prix
+- `minSurfaceM2` / `maxSurfaceM2` — fourchette de surface
+- `minBedrooms` / `maxBedrooms` — chambres
+- `sellerType` — `PARTICULIER` | `PRO`
+- `department` — code département (ex. `54`)
+- `city` — nom de ville
+- `polygon` — zone custom (GeoJSON)
+- `energyRate` — DPE minimum
+- `sort` — `price_asc` | `price_desc` | `firstSeen_desc`
+- `status` — `ACTIVE` | `DISAPPEARED`
+- `limit` / `offset` — pagination
+
+Détails complets : [Référence outils](../ressources/reference-outils).
+</Accordion>

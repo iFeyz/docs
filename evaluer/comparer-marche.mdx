@@ -1,0 +1,133 @@
+---
+title: "Comparer un marché"
+description: Évolution dans le temps d'une métrique de marché — €/m² médian, volumes d'offres — bucketée par semaine, mois ou trimestre.
+---
+
+Imoria sait suivre l'évolution dans le temps d'une métrique de marché (prix médian, volume d'offres, taux de disparition) sur une cohorte précise. Utile pour repérer un point d'entrée, anticiper une tendance, ou comparer deux villes.
+
+<Info>
+  La granularité de base est mensuelle, sur 18 mois glissants. La fenêtre est ajustable jusqu'à 36 mois et la granularité passe en hebdomadaire ou trimestrielle selon le besoin.
+</Info>
+
+## Exemple de prompt
+
+```text title="Dans le client IA"
+Compare l'évolution du €/m² médian des T3 à Nancy et à Metz sur les 18 derniers mois.
+```
+
+## Ce qu'Imoria renvoie
+
+Une série temporelle par cohorte. Pour chaque bucket (mois, par défaut) :
+
+| Champ           | Signification                                              |
+| --------------- | ---------------------------------------------------------- |
+| `period`        | Mois ou semaine de la mesure (ex. `2026-03`)               |
+| `value`         | Valeur de la métrique demandée                             |
+| `sampleSize`    | Nombre d'annonces ayant servi au calcul                    |
+| `confidence`    | `high` / `medium` / `low` selon la taille de l'échantillon |
+| `trailingValue` | Moyenne mobile, pour lisser le bruit (si demandée)         |
+
+Quand plusieurs cohortes sont comparées (par exemple deux villes), le résultat est un tableau croisé.
+
+**Exemple de réponse réelle :**
+
+```text title="Réponse Imoria"
+Évolution €/m² médian — T3 Nancy vs T3 Metz (18 mois, granularité mois)
+
+mois        Nancy €/m²    Metz €/m²    écart    n Nancy / n Metz
+2025-01       6 210         5 980      +3.8%     58 / 41
+2025-02       6 240         5 920      +5.4%     54 / 38
+2025-03       6 200         5 880      +5.4%     61 / 44
+2025-04       6 180         5 820      +6.2%     49 / 36
+...
+2026-02       6 250         5 770      +8.3%     52 / 28
+2026-03       6 220         5 760      +8.0%     55 / 31
+2026-04       6 200         5 800      +6.9%     46 / 32
+
+Tendance Nancy    stable    confiance high (sample n=42–61/mois)
+Tendance Metz     -3.4%     confiance medium (sample n=28–44/mois)
+
+Trailing values (moyenne mobile 3 mois)
+  Nancy: 6 195 → 6 213 → 6 223
+  Metz:  5 875 → 5 793 → 5 777
+```
+
+## Métriques disponibles
+
+- `median_ppm2` — €/m² médian (la plus courante)
+- `p25_ppm2` / `p75_ppm2` — bornes basse et haute (dispersion)
+- `median_price` — prix total médian
+- `avg_price` — prix total moyen
+- `active_count` — nombre d'annonces actives sur la cohorte
+- `new_count` — nouvelles annonces apparues dans le bucket
+- `disappeared_count` — annonces ayant disparu dans le bucket
+
+## Variations à essayer
+
+<Tabs>
+
+<Tab title="Sur une cohorte serrée">
+```text
+Évolution du €/m² médian des T2 à Nancy entre 50 et 60 m², ces 12 derniers mois, par semaine.
+```
+</Tab>
+
+<Tab title="Volume d'offres">
+```text
+Combien de nouvelles annonces de maisons sont apparues en Moselle chaque mois sur 18 mois ?
+```
+</Tab>
+
+<Tab title="Comparer plusieurs villes">
+```text
+Compare le €/m² médian des appartements à Nancy, Metz, Épinal et Verdun sur 18 mois — donne-moi la tendance pour chacune.
+```
+</Tab>
+
+</Tabs>
+
+## Lire une tendance
+
+Quelques règles de base pour interpréter les séries Imoria :
+
+- Une **série lisse** (faible variance d'un mois à l'autre) signale un marché homogène et un échantillon important.
+- Une **série très bruitée** sur cohorte étroite (par ex. T1 dans une petite commune) est plus à prendre au mot du `trailingValue` que de la valeur ponctuelle.
+- Une **rupture brutale** sur `new_count` ou `disappeared_count` peut signaler un effet saisonnier (été creux, rentrée chargée), un événement local, ou une rupture de captation.
+
+## Limites
+
+<Card href="/ressources/limites-et-couvertures#prix-demande-nest-pas-prix-vendu" icon="link" horizontal>
+  Voir : prix-demande-nest-pas-prix-vendu
+</Card>
+
+- Les séries portent par défaut sur les **prix demandés**, pas vendus. Quand DVF est disponible, une variante calibrée vente peut être demandée explicitement ("compare aussi les prix DVF").
+- Sur des cohortes très étroites, la confiance descend rapidement — préférer alors `trailingPeriods` (lissage glissant) pour lire la tendance.
+
+## Et après ?
+
+<CardGroup cols={2}>
+
+<Card title="Étudier un quartier" href="/etudier-quartier" icon="map-location-dot">
+  Zoomer sur un micro-marché précis.
+</Card>
+
+<Card title="Trouver des sous-cotées" href="/chercher/annonces-sous-cotees" icon="arrow-trend-down">
+  Mettre la tendance en action — chercher les pépites du marché choisi.
+</Card>
+
+</CardGroup>
+
+<Accordion title="Avancé — outils MCP et paramètres">
+Cette page utilise principalement `query_market_trend`, parfois en complément de `query_real_estate` (mode `aggregate`).
+
+`query_market_trend` paramètres :
+
+- Filtres de cohorte : `archetype`, `department`, `city`, `polygon`, `minPrice`, `maxPrice`, `minSurfaceM2`, `maxSurfaceM2`, `minBedrooms`, `maxBedrooms`, `energyRate`, `nearPoi`.
+- `metric` — voir la liste ci-dessus.
+- `granularity` — `week` | `month` | `quarter`.
+- `dateFrom` / `dateTo` — fenêtre temporelle.
+- `groupBy` — optionnel : `archetype`, `department`, `city`, `energyRate`, `surfaceBand` pour découper.
+- `trailingPeriods` — taille de la moyenne mobile (par exemple 3 pour un lissage sur 3 buckets).
+
+Retourne `[{ period, value, sampleSize, confidence, trailingValue }]`.
+</Accordion>

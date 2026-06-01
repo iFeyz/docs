@@ -1,0 +1,116 @@
+---
+title: "Trouver des comparables"
+description: Les K biens les plus proches d'une annonce, classés par similarité — typologie, surface, géographie, caractéristiques.
+---
+
+Pour valider ou contester une estimation, le meilleur outil est la **liste des comparables**. Imoria renvoie les K biens les plus proches d'une annonce donnée, classés par similarité (géographique, surface, description).
+
+<Info>
+  Par défaut, Imoria renvoie 10 comparables. Le nombre est ajustable jusqu'à 50.
+</Info>
+
+## Exemple de prompt
+
+```text title="Dans le client IA"
+Donne-moi les 15 comparables les plus proches de cette annonce.
+```
+
+## Ce qu'Imoria renvoie
+
+Une liste de biens classés par score de similarité. Chaque ligne contient :
+
+| Champ                | Signification                                                                 |
+| -------------------- | ----------------------------------------------------------------------------- |
+| `prix demandé`       | Prix de l'annonce comparable                                                  |
+| `surface` / `pièces` | Caractéristiques du comparable                                                |
+| `distance`           | Distance géographique au bien d'origine, en mètres ou kilomètres              |
+| `similarity`         | Score composite (typologie + surface + géo + description), 0 à 1              |
+| `dpe`                | Classe énergétique si renseignée                                              |
+| `firstSeenAt`        | Quand le comparable est apparu sur le catalogue                               |
+| `status`             | `ACTIVE` ou `DISAPPEARED` (les comparables disparus servent aussi à calibrer) |
+| `url`                | Lien direct vers l'annonce comparable                                         |
+
+## Variations à essayer
+
+<Tabs>
+
+<Tab title="Beaucoup de comparables">
+```text
+Donne 50 comparables pour cette annonce, je veux voir la dispersion complète.
+```
+</Tab>
+
+<Tab title="Comparables actifs uniquement">
+```text
+Donne 10 comparables, uniquement parmi les annonces encore actives.
+```
+</Tab>
+
+<Tab title="Comparables par prix">
+```text
+Donne les 10 comparables les moins chers de cette annonce.
+```
+</Tab>
+
+</Tabs>
+
+**Exemple de réponse réelle :**
+
+```text title="Réponse Imoria"
+15 comparables pour ad_8c4f29... — T2 58 m² Nancy centre, 165 000 €
+
+#    Prix       Surface   €/m²    Distance    sim    DPE   Statut
+1    168 000    56 m²    3 000     320 m     0.91    D     ACTIVE
+2    175 000    60 m²    2 917     540 m     0.88    C     ACTIVE
+3    159 000    55 m²    2 891     780 m     0.85    D     DISAPPEARED
+4    180 000    62 m²    2 903     420 m     0.84    D     ACTIVE
+5    155 000    52 m²    2 981     1 100 m   0.82    E     ACTIVE
+6    172 000    58 m²    2 966     890 m     0.81    D     ACTIVE
+7    149 000    54 m²    2 759     1 200 m   0.79    E     DISAPPEARED
+...
+15   162 000    56 m²    2 893     1 800 m   0.71    D     ACTIVE
+
+Médiane €/m² des comparables: 2 917 €/m²
+Dispersion (P25 - P75):       2 870 - 2 985 €/m²
+```
+
+## Comment Imoria choisit les comparables
+
+- **Mêmes typologie et archétype** (appartement T2 vs. appartement T2).
+- **Surface ±20 %** (un 60 m² est comparé à des 50–72 m²).
+- **Proximité géographique** — mêmes commune et secteur en priorité ; élargissement progressif si le pool est trop petit.
+- **Caractéristiques principales** quand renseignées : étage, DPE, présence d'un extérieur, parking.
+
+Le score de similarité combine ces dimensions. Les comparables sont d'autant plus pertinents que la zone est dense en annonces.
+
+## Limites
+
+<Card href="/ressources/limites-et-couvertures#adresses-masquees-sur-les-annonces" icon="link" horizontal>
+  Voir : adresses-masquees-sur-les-annonces
+</Card>
+
+- Les comparables provenant d'annonces à adresse masquée sont localisés à la commune, pas à la rue — la distance affichée peut être approximative.
+- Dans une zone à faible densité d'annonces, Imoria élargit le rayon — le score de similarité reste honnête mais les biens sont plus éloignés.
+
+## Et après ?
+
+<CardGroup cols={2}>
+
+<Card title="Estimer la valeur" href="/estimer-valeur" icon="scale-balanced">
+  Fourchette P25–P75 calculée sur les comparables.
+</Card>
+
+<Card title="Étudier le quartier" href="/etudier-quartier" icon="map-location-dot">
+  Contexte de marché global du secteur.
+</Card>
+
+</CardGroup>
+
+<Accordion title="Avancé — outil MCP et paramètres">
+Cette page utilise `find_comparables`. Paramètres :
+
+- `adId` (UUID) — l'annonce d'origine.
+- `k` — nombre de comparables, 1 à 50, défaut 10.
+
+Retourne une liste d'annonces avec `similarity` (cosinus normalisé, 0 à 1) et `distance` (mètres).
+</Accordion>

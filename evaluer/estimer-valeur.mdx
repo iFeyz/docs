@@ -1,0 +1,115 @@
+---
+title: "Estimer la valeur d'un bien"
+description: Fourchette P25–P75 de valeur estimée pour une annonce, avec verdict de marché, indice de confiance, et comparables utilisés.
+---
+
+Imoria estime la valeur d'une annonce en cherchant ses comparables locaux et, quand c'est possible, en calibrant l'écart annonce → vente avec les transactions DVF récentes. Le résultat est une fourchette P25–P75, pas un chiffre unique.
+
+<Info>
+  La fourchette donne une idée du **marché des prix demandés**. Quand DVF est disponible pour le secteur, une **calibration de vente** est ajoutée pour estimer où le bien se vendrait réellement après négociation.
+</Info>
+
+## Exemple de prompt
+
+```text title="Dans le client IA"
+Estime la valeur de cette annonce : https://exemple.fr/annonce/1234567
+```
+
+## Ce qu'Imoria renvoie
+
+| Section                | Contenu                                                                                               |
+| ---------------------- | ----------------------------------------------------------------------------------------------------- |
+| **Fourchette P25–P75** | Bornes basses et hautes de la valeur estimée (ex. `162 000 € – 178 000 €`)                            |
+| **Verdict**            | `below` (sous-coté), `in_line` (dans le marché), `above` (sur-coté) — par rapport à la médiane locale |
+| **Confiance**          | `high` / `medium` / `low` — basée sur le nombre de comparables et leur dispersion                     |
+| **Comparables**        | Les biens similaires utilisés pour le calcul, avec leur prix et leur distance                         |
+| **Calibration DVF**    | Marge typique annonce → vente sur le secteur, si DVF disponible                                       |
+| **DPE le plus proche** | Note A à G du diagnostic le plus proche (ajustement énergétique)                                      |
+| **`coverageNotice`**   | Présent uniquement si DVF n'est pas disponible (Alsace-Moselle)                                       |
+
+<Warning>
+  Le verdict porte sur le **prix demandé** — pas sur le prix final de vente. Une annonce `in_line` peut malgré tout se négocier ; une annonce `below` peut traduire un défaut caché (travaux, copropriété en difficulté, exposition).
+</Warning>
+
+**Exemple de réponse réelle :**
+
+```text title="Réponse Imoria"
+Estimation — Appartement T2, 58 m², Nancy centre
+
+Fourchette P25–P75      162 000 € – 178 000 €
+Médiane                 170 000 €
+Prix demandé            165 000 €
+Verdict                 in_line  (-3% vs médiane locale)
+Confiance               high  (24 comparables, dispersion faible)
+
+Calibration DVF         Marge négo. typique secteur: -7%
+                        Estimé vendu: ~158 000 €
+
+DPE le plus proche      D  (à 35 m, rue Sergent-Blandan)
+Parcelle cadastrale     54395 BC 0124  (3 mutations historiques)
+
+Top 3 comparables retenus
+  1. T2 56 m² · 168 000 € · 320 m       · sim 0.91
+  2. T2 60 m² · 175 000 € · 540 m       · sim 0.88
+  3. T2 55 m² · 159 000 € · 780 m       · sim 0.85
+```
+
+## Variations à essayer
+
+<Tabs>
+
+<Tab title="Estimation + comparables">
+```text
+Estime cette annonce et montre les 15 comparables utilisés pour le calcul.
+```
+</Tab>
+
+<Tab title="Avec calibration vente">
+```text
+Estime cette annonce. Si DVF est disponible, donne aussi la marge de négociation typique du secteur.
+```
+</Tab>
+
+<Tab title="Estimation rapide">
+```text
+Donne juste la fourchette de valeur et le verdict, sans détail.
+```
+</Tab>
+
+</Tabs>
+
+## Limites
+
+<Card href="/ressources/limites-et-couvertures#alsace-moselle-pas-de-dvf" icon="link" horizontal>
+  Voir : alsace-moselle-pas-de-dvf
+</Card>
+
+- En **Alsace-Moselle** (departments 57, 67, 68), l'estimation ne peut s'appuyer que sur les comparables d'annonces — pas de calibration DVF.
+- Pour les **biens atypiques** (lofts, anciens ateliers, granges aménagées), le nombre de comparables est faible et la confiance descend à `low` — utiliser l'estimation comme un ordre de grandeur, pas comme une valeur fiable.
+- Les estimations s'appuient sur les **caractéristiques déclarées par le vendeur** (surface, DPE). Une visite reste indispensable pour valider la qualité du bien.
+
+## Et après ?
+
+<CardGroup cols={2}>
+
+<Card title="Voir les comparables" href="/comparables" icon="layer-group">
+  Tous les biens utilisés pour le calcul, avec scores de similarité.
+</Card>
+
+<Card title="Étudier le quartier" href="/etudier-quartier" icon="map-location-dot">
+  Contexte de marché autour de l'annonce.
+</Card>
+
+<Card title="Comparer un marché" href="/comparer-marche" icon="chart-line">
+  Tendance du €/m² médian sur 18 mois.
+</Card>
+
+</CardGroup>
+
+<Accordion title="Avancé — outil MCP et paramètres">
+Cette page utilise `estimate_ad_value`. Paramètre principal :
+
+- `adId` (UUID) — l'annonce à estimer.
+
+Le résultat contient `valueRange` (P25, P50, P75), `verdict`, `confidence`, `comparables` (liste), `dvfCalibration` (si applicable), `coverageNotice` (si Alsace-Moselle).
+</Accordion>

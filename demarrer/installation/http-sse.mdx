@@ -1,0 +1,103 @@
+---
+title: "Connexion HTTP/SSE directe"
+description: Appeler Imoria en HTTP direct — pour les intégrations custom, scripts, ou clients qui ne supportent pas encore MCP.
+---
+
+Pour un script, une application interne, ou un client IA qui ne supporte pas MCP nativement, le serveur Imoria s'appelle directement en HTTP.
+
+Cette page suppose une familiarité avec HTTP et JSON — c'est la voie technique. Pour la voie grand public, retourner au [hub d'installation](../installation).
+
+## Endpoint
+
+| Champ        | Valeur                                                   |
+| ------------ | -------------------------------------------------------- |
+| Base URL     | `https://api.imoria.fr/mcp`                              |
+| Méthode      | POST (appels d'outils), GET (SSE pour les notifications) |
+| Content-Type | `application/json`                                       |
+
+Les modalités d'authentification appliquées dans les requêtes suivent les conditions d'accès convenues avec Imoria.
+
+## Vérifier que le serveur répond
+
+```bash title="curl"
+curl -i https://api.imoria.fr/mcp/health
+```
+
+Réponse attendue :
+
+```json title="200 OK"
+{ "status": "ok", "version": "1.x.x" }
+```
+
+## Lister les outils disponibles
+
+```bash title="Lister les outils"
+curl -H "Content-Type: application/json" \
+     -X POST https://api.imoria.fr/mcp \
+     -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+```
+
+La réponse contient la liste des outils MCP exposés, leur schéma de paramètres, et leur description.
+
+## Appeler un outil
+
+Exemple : chercher les T2 sous-cotés à Nancy sous 180 k€ via l'outil `find_undervalued_ads`.
+
+```bash title="Appel d'outil"
+curl -H "Content-Type: application/json" \
+     -X POST https://api.imoria.fr/mcp \
+     -d '{
+       "jsonrpc": "2.0",
+       "id": 2,
+       "method": "tools/call",
+       "params": {
+         "name": "find_undervalued_ads",
+         "arguments": {
+           "archetype": "appartement",
+           "city": "Nancy",
+           "minBedrooms": 1,
+           "maxBedrooms": 2,
+           "maxPrice": 180000
+         }
+       }
+     }'
+```
+
+Le serveur répond avec un payload JSON-RPC contenant les annonces classées par décote, leur `dealScorePct` et leur `confidence`.
+
+## Flux SSE (Server-Sent Events)
+
+Pour les outils qui streament leur réponse (analyses longues), la connexion se fait en SSE :
+
+```bash title="SSE en bash"
+curl -N -H "Accept: text/event-stream" \
+     https://api.imoria.fr/mcp/events
+```
+
+Chaque événement arrive sous la forme `data: {...}\n\n` jusqu'à la fin de la session.
+
+## Exemple Python
+
+```python title="Exemple Python"
+import requests
+
+BASE = "https://api.imoria.fr/mcp"
+
+payload = {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "tools/call",
+    "params": {
+        "name": "estimate_ad_value",
+        "arguments": {"adId": "11111111-1111-1111-1111-111111111111"},
+    },
+}
+
+response = requests.post(BASE, json=payload, timeout=30)
+response.raise_for_status()
+print(response.json())
+```
+
+## Pour aller plus loin
+
+- La [Référence outils](../../ressources/reference-outils) liste tous les outils MCP publics et leurs paramètres principaux.

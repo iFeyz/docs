@@ -1,0 +1,97 @@
+---
+title: "Autres clients MCP"
+description: Cline, Windsurf, Zed, Continue, et la plupart des autres clients compatibles MCP — configuration en deux minutes.
+---
+
+L'écosystème MCP grandit vite. La plupart des clients compatibles utilisent le **même format JSON** que Claude Desktop, avec parfois un emplacement de fichier différent. Voici les principaux.
+
+<Info>
+  **Règle universelle** : tout client qui supporte MCP HTTP/SSE peut pointer sur `https://api.imoria.fr/mcp`. Les modalités d'authentification s'appliquent selon ce qui a été convenu avec Imoria — le reste est cosmétique.
+</Info>
+
+## Cline (extension VS Code)
+
+Cline est une extension VS Code qui apporte un agent IA dans l'éditeur.
+
+- **Réglages** : `Cmd+,` → recherche "Cline MCP" → bouton **Edit MCP Settings**.
+- **Format** : identique à Claude Desktop (bloc `mcpServers`).
+
+```json title="Config Cline"
+{
+  "mcpServers": {
+    "imoria": {
+      "url": "https://api.imoria.fr/mcp"
+    }
+  }
+}
+```
+
+## Windsurf
+
+Windsurf (Codeium) supporte MCP via son panneau de configuration.
+
+- **Réglages** : **Windsurf → Settings → MCP Servers**.
+- **Ajout** : bouton **Add Server**, type `Remote / HTTP-SSE`.
+- URL : `https://api.imoria.fr/mcp`.
+
+## Zed
+
+Zed supporte MCP depuis 2025. Configuration via `~/.config/zed/settings.json`.
+
+```json title="Zed settings.json"
+{
+  "context_servers": {
+    "imoria": {
+      "command": {
+        "path": "curl",
+        "args": ["-N", "https://api.imoria.fr/mcp"]
+      }
+    }
+  }
+}
+```
+
+(Zed utilise une approche command-based ; certaines versions ajoutent un support HTTP/SSE direct.)
+
+## Continue
+
+Continue est une extension open source pour VS Code et JetBrains.
+
+- **Réglages** : `~/.continue/config.json`.
+
+```json title="Continue config.json"
+{
+  "mcpServers": [
+    {
+      "name": "imoria",
+      "url": "https://api.imoria.fr/mcp"
+    }
+  ]
+}
+```
+
+## Pour un autre client
+
+Chercher dans les réglages du client une section **MCP**, **Model Context Protocol**, **Tools**, ou **External agents**. Deux informations suffisent :
+
+1. **URL du serveur** : `https://api.imoria.fr/mcp`
+2. **Transport** : HTTP avec Server-Sent Events (SSE)
+
+Si le client ne supporte que les serveurs MCP **locaux** (commande système), la voie HTTP directe reste possible — voir [Connexion HTTP/SSE directe](http-sse.md).
+
+## Compatibilité connue
+
+| Client            | Support MCP         | Type recommandé                     |
+| ----------------- | ------------------- | ----------------------------------- |
+| Claude Desktop    | natif            | HTTP/SSE                            |
+| Cursor            | natif            | HTTP/SSE                            |
+| Claude Code (CLI) | natif            | HTTP/SSE                            |
+| Cline (VS Code)   | natif            | HTTP/SSE                            |
+| Windsurf          | natif            | HTTP/SSE                            |
+| Zed               | contextuel       | Command + curl                      |
+| Continue          | natif            | HTTP/SSE                            |
+| Goose             | natif            | HTTP/SSE                            |
+| OpenCode          | natif            | HTTP/SSE                            |
+| ChatGPT           | pas de MCP natif | Voir [HTTP/SSE direct](http-sse.md) |
+
+Cette liste évolue rapidement.

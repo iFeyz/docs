@@ -1,0 +1,119 @@
+---
+title: "Filtrer par POI"
+description: Restreindre une recherche d'annonces aux biens proches d'un type d'équipement — école, gare, commerce, médecin.
+---
+
+Imoria s'appuie sur la base **BPE** (Base Permanente des Équipements) de l'INSEE, qui recense environ 229 catégories de points d'intérêt — éducation, transport, commerce, santé, sport, services, tourisme. Tout filtre de recherche peut combiner un critère "proche d'un POI de type X dans un rayon Y".
+
+<Info>
+  La base BPE est mise à jour annuellement par l'INSEE. Les changements rapides (ouverture de commerce, déménagement) peuvent ne pas être reflétés immédiatement.
+</Info>
+
+## Exemple de prompt
+
+```text title="Dans le client IA"
+Trouve les T3 à Nancy sous 220 000 €, à moins de 500 m d'une école primaire.
+```
+
+## Ce qu'Imoria fait derrière
+
+1. Le client IA traduit "école primaire" en code POI INSEE (`C101` par exemple).
+2. Imoria géocode les écoles primaires dans la zone.
+3. La recherche d'annonces filtre celles dont le point géographique est dans le rayon demandé d'au moins une école.
+4. Les résultats incluent la distance à l'école la plus proche.
+
+**Exemple de réponse réelle :**
+
+```text title="Réponse Imoria"
+12 annonces — T3 Nancy < 220 000 €, à moins de 500 m d'une école primaire
+
+#    Prix       Surface   Distance école      École la plus proche
+1    195 000    68 m²    140 m                École Jean-Jaurès (C101)
+2    208 000    72 m²    220 m                École Saint-Sébastien (C101)
+3    178 000    64 m²    310 m                École Marcel-Pagnol (C101)
+4    215 000    70 m²    180 m                École Jean-Jaurès (C101)
+5    189 000    66 m²    420 m                École Buthegnémont (C101)
+...
+12   210 000    74 m²    480 m                École Charles-Perrault (C101)
+
+Filtre POI       category=C101 (école primaire) · radius=500m
+Filtres durs     city=Nancy · archetype=appartement · rooms=3 · maxPrice=220000
+Total exact      12
+```
+
+## Catégories de POI courantes
+
+Quelques exemples utiles pour un usage immo. Pour la liste complète, demander à Imoria "liste les catégories de POI disponibles" — il appelle `list_poi_categories` et renvoie les ~229 codes.
+
+| Domaine             | Exemples                                                     |
+| ------------------- | ------------------------------------------------------------ |
+| **Éducation**       | Écoles maternelles, primaires, collèges, lycées, universités |
+| **Transport**       | Gares SNCF, métros, arrêts de tramway, parkings publics      |
+| **Commerce**        | Supermarchés, boulangeries, pharmacies, marchés              |
+| **Santé**           | Médecins généralistes, dentistes, hôpitaux, cliniques        |
+| **Services**        | Postes, mairies, banques, garderies                          |
+| **Sport / loisirs** | Piscines, salles de sport, tennis, terrains de foot          |
+| **Tourisme**        | Musées, cinémas, parcs, monuments                            |
+
+## Variations à essayer
+
+<Tabs>
+
+<Tab title="Proximité gare">
+```text
+Cherche les appartements à Metz à moins de 800 m d'une gare SNCF, budget max 200 000 €.
+```
+
+Très utile pour les biens en location LMNP ciblant des locataires "frontaliers Luxembourg".
+</Tab>
+
+<Tab title="Famille">
+```text
+Trouve des maisons à Nancy ou Vandœuvre-lès-Nancy à moins de 600 m d'une école primaire ET à moins de 1 km d'un supermarché.
+```
+</Tab>
+
+<Tab title="Lister les codes POI">
+```text
+Liste toutes les catégories de POI disponibles dans le domaine "transport".
+```
+</Tab>
+
+</Tabs>
+
+## Limites
+
+<Card href="/ressources/limites-et-couvertures#adresses-masquees-sur-les-annonces" icon="link" horizontal>
+  Voir : adresses-masquees-sur-les-annonces
+</Card>
+
+- Comme une partie des annonces a une adresse masquée, le filtre "à moins de X mètres d'un POI" est **approximatif en zone dense**. En zone rurale ou en petite commune, l'imprécision est minime.
+- La BPE est annuelle — les **changements récents** (nouveau commerce, fermeture d'école) peuvent ne pas être pris en compte.
+- Pour un POI très spécifique non listé dans la BPE, le mieux est de géocoder l'adresse exacte et d'utiliser un filtre `near` (lat/lng + rayon).
+
+## Et après ?
+
+<CardGroup cols={2}>
+
+<Card title="Recherche par critères" href="/chercher/recherche-criteres" icon="sliders">
+  Combiner POI avec d'autres filtres (prix, surface, DPE).
+</Card>
+
+<Card title="Étudier un quartier" href="/evaluer/etudier-quartier" icon="map-location-dot">
+  Voir l'environnement complet autour d'un POI.
+</Card>
+
+</CardGroup>
+
+<Accordion title="Avancé — outils MCP et paramètres">
+Deux outils impliqués selon le besoin :
+
+`list_poi_categories` — sans paramètre, renvoie `[{ code, label, domain, count }]` pour les ~229 catégories BPE.
+
+Filtre `nearPoi` (disponible sur `search_ads`, `search_ads_hybrid`, `search_ads_semantic`, `find_undervalued_ads`, `query_real_estate`) :
+
+- `category` — code BPE (ex. `C101` pour école primaire).
+- `radiusMeters` — rayon en mètres.
+
+Plusieurs `nearPoi` peuvent être combinés (ET logique : à la fois proche d'une école ET d'un supermarché).
+</Accordion>

@@ -1,0 +1,124 @@
+---
+title: "Étudier un quartier"
+description: Vue 360° d'un lieu — cadastre, transactions récentes, DPE, distribution des annonces, marge de négociation locale.
+---
+
+À partir d'un lieu (gare, adresse, intersection), Imoria construit une vue d'ensemble du marché immobilier dans un rayon donné : mutations DVF récentes, prix médian, marge de négociation typique, distribution des annonces actives, DPE les plus proches.
+
+<Info>
+  L'outil prend une **paire lat/lng** (coordonnées GPS) ou un **nom de lieu** que Imoria géocode automatiquement. Le rayon par défaut est de 1 km, ajustable jusqu'à 10 km.
+</Info>
+
+## Exemple de prompt
+
+```text title="Dans le client IA"
+Analyse le quartier autour de la gare de Thionville dans un rayon de 1 km.
+```
+
+## Ce qu'Imoria renvoie
+
+| Section                               | Contenu                                                                 |
+| ------------------------------------- | ----------------------------------------------------------------------- |
+| **Parcelle / cadastre**               | Identifiant cadastral du point central, si suffisamment précis          |
+| **Mutations DVF récentes**            | Transactions vendues dans le rayon, avec date, prix, surface, archétype |
+| **€/m² médian**                       | Médiane des prix de vente DVF (quand disponible) et des prix demandés   |
+| **Marge de négociation**              | Écart typique annonce → vente sur le micro-marché, si DVF calibré       |
+| **Distribution des annonces actives** | Combien de T1, T2, T3, maisons, terrains dans le rayon                  |
+| **DPE le plus proche**                | Diagnostic le plus proche dans un rayon de 50 m, si disponible          |
+| **`coverageNotice`**                  | Présent uniquement si DVF n'est pas disponible (Alsace-Moselle)         |
+
+<Warning>
+  **Pour les départements 57 (Moselle), 67 (Bas-Rhin) et 68 (Haut-Rhin)** — la base DVF nationale ne couvre pas ces territoires. Imoria renvoie un `coverageNotice` explicite. L'analyse reste valide pour les annonces du marché (€/m² demandé, distribution, POI), mais la calibration de vente et l'historique des mutations ne sont pas disponibles. La source officielle pour ces transactions est le Livre Foncier. Détails dans [Limites & couvertures](../ressources/limites-et-couvertures#alsace-moselle-pas-de-dvf).
+</Warning>
+
+**Exemple de réponse réelle :**
+
+```text title="Réponse Imoria"
+Quartier — 1 km autour de la gare de Metz  (lat 49.110, lng 6.187)
+
+Distribution des annonces actives (n=87)
+  T1     8     T2    24     T3    19
+  T4    11     T5+    5     maisons 12     terrains 8
+
+Prix médian demandé    3 920 €/m²    (P25 3 410  ·  P75 4 280)
+Prix médian DVF        non disponible — voir notice ci-dessous
+
+[Notice]  Département 57 (Moselle) — Alsace-Moselle, droit local
+          Mutations enregistrées au Livre Foncier (EPELFI), pas en DVF national.
+          Calibration de vente non disponible pour ce secteur.
+
+DPE le plus proche     D  (à 28 m de la gare)
+Cadastre               57463 AB 0089
+
+POI à 500 m
+  Éducation        école primaire (3) · lycée (1) · université (1)
+  Transport        gare TGV (1) · arrêt tramway (2)
+  Commerce         supermarché (1) · boulangerie (4)
+  Santé            pharmacie (3) · médecin généraliste (5)
+```
+
+## Variations à essayer
+
+<Tabs>
+
+<Tab title="Rayon élargi">
+```text
+Analyse le quartier autour de la mairie de Nancy sur 2 km.
+```
+
+Plus le rayon est large, plus le secteur est hétérogène — utile pour une vue d'ensemble d'une grande ville.
+</Tab>
+
+<Tab title="Centré sur une adresse">
+```text
+Analyse le quartier autour du 12 rue Saint-Dizier à Nancy, rayon 500 m.
+```
+
+Quand l'adresse est précise, l'analyse colle au micro-marché du pâté de maisons.
+</Tab>
+
+<Tab title="Pour évaluer un projet">
+```text
+Analyse ce quartier et dis-moi s'il a du potentiel pour un T2 en location LMNP — distribution des biens, marge de négociation, tendance.
+```
+</Tab>
+
+</Tabs>
+
+## Limites
+
+<Card href="/ressources/limites-et-couvertures#alsace-moselle-pas-de-dvf" icon="link" horizontal>
+  Voir : alsace-moselle-pas-de-dvf
+</Card>
+
+<Card href="/ressources/limites-et-couvertures#adresses-masquees-sur-les-annonces" icon="link" horizontal>
+  Voir : adresses-masquees-sur-les-annonces
+</Card>
+
+- La précision géographique des annonces est limitée — voir la note sur les adresses masquées.
+- La marge de négociation est moins fiable sur les zones avec peu de transactions récentes.
+
+## Et après ?
+
+<CardGroup cols={2}>
+
+<Card title="Annonces sous-cotées du quartier" href="/chercher/annonces-sous-cotees" icon="arrow-trend-down">
+  Filtrer les pépites dans le rayon analysé.
+</Card>
+
+<Card title="Comparer un marché" href="/comparer-marche" icon="chart-line">
+  Voir l'évolution sur 18 mois.
+</Card>
+
+</CardGroup>
+
+<Accordion title="Avancé — outil MCP et paramètres">
+Cette page utilise `analyze_location`. Paramètres :
+
+- `lat` / `lng` — coordonnées GPS du point central.
+- `radiusMeters` — rayon en mètres, défaut 1000, max 10 000.
+
+Si le client IA reçoit un nom de lieu plutôt que des coordonnées, il appelle d'abord `geocode_place` pour obtenir `lat/lng`.
+
+Retourne un objet structuré avec `parcel`, `dvfMutations`, `medianPpm2Asked`, `medianPpm2Sold`, `negotiationMargin`, `adDistribution`, `nearestDpe`, et un éventuel `coverageNotice`.
+</Accordion>

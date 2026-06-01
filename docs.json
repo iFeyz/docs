@@ -1,72 +1,132 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mintlify Starter Kit",
+  "name": "Imoria",
+  "description": "Documentation publique d'Imoria — un moteur d'analyse immobilière piloté depuis un client IA compatible MCP.",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#e43416",
+    "light": "#ff5336",
+    "dark": "#e43416"
+  },
+  "background": {
+    "color": {
+      "light": "#fefcfa",
+      "dark": "#0a0908"
+    }
   },
   "favicon": "/favicon.svg",
   "navigation": {
-    "pages": [
+    "languages": [
       {
-        "group": "Getting Started",
+        "language": "fr",
+        "default": true,
         "pages": [
-          "index",
-          "quickstart"
+          {
+            "group": " ",
+            "pages": ["index"]
+          },
+          {
+            "group": "Démarrer",
+            "pages": [
+              "demarrer/installation",
+              {
+                "group": "Installation par client",
+                "pages": [
+                  "demarrer/installation/claude-desktop",
+                  "demarrer/installation/cursor",
+                  "demarrer/installation/claude-code",
+                  "demarrer/installation/autres-clients",
+                  "demarrer/installation/http-sse"
+                ]
+              },
+              "demarrer/premier-prompt"
+            ]
+          },
+          {
+            "group": "Chercher des biens",
+            "pages": [
+              "chercher/index",
+              "chercher/recherche-criteres",
+              "chercher/recherche-semantique",
+              "chercher/annonces-sous-cotees",
+              "chercher/inspecter-annonce"
+            ]
+          },
+          {
+            "group": "Évaluer & analyser",
+            "pages": [
+              "evaluer/index",
+              "evaluer/estimer-valeur",
+              "evaluer/comparables",
+              "evaluer/etudier-quartier",
+              "evaluer/comparer-marche"
+            ]
+          },
+          {
+            "group": "Outils géo",
+            "pages": [
+              "geo/index",
+              "geo/geocoder",
+              "geo/filtrer-poi"
+            ]
+          },
+          {
+            "group": "Ressources",
+            "pages": [
+              "ressources/index",
+              "ressources/limites-et-couvertures",
+              "ressources/faq",
+              "ressources/glossaire",
+              "ressources/reference-outils"
+            ]
+          }
         ]
       }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
-        }
-      ]
+    ]
+  },
+  "appearance": {
+    "default": "system",
+    "strict": false
+  },
+  "fonts": {
+    "heading": {
+      "family": "Inter",
+      "weight": 510
+    },
+    "body": {
+      "family": "Inter",
+      "weight": 400
     }
   },
-  "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
-  },
   "navbar": {
-    "links": [
-      {
-        "label": "Support",
-        "href": "mailto:hi@mintlify.com"
-      }
-    ],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
-      "href": "https://app.mintlify.com"
+      "label": "Installer",
+      "href": "/demarrer/installation"
     }
   },
   "contextual": {
     "options": [
       "copy",
       "view",
-      "chatgpt",
       "claude",
-      "perplexity",
-      "mcp",
+      "chatgpt",
       "cursor",
-      "vscode"
+      "mcp",
+      "perplexity"
     ]
   },
+  "seo": {
+    "metatags": {
+      "og:site_name": "Imoria — Documentation",
+      "og:type": "website"
+    },
+    "indexing": "navigable"
+  },
+  "search": {
+    "prompt": "Chercher dans la documentation Imoria…"
+  },
   "footer": {
-    "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
-    }
+    "socials": {}
   }
 }

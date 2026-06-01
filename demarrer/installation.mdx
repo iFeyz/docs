@@ -1,0 +1,59 @@
+---
+title: "Installation"
+description: Connecter Imoria à un client IA en quelques minutes — choisir le client, copier la configuration, vérifier la connexion.
+---
+
+Imoria expose un serveur **MCP** (Model Context Protocol) auquel tout client IA compatible peut se connecter. Concrètement, il suffit d'ajouter une petite configuration JSON au client, de le redémarrer, et Imoria devient interrogeable en français.
+
+<Info>
+  Trois éléments suffisent pour démarrer : un **client IA compatible MCP**, l'**URL du serveur Imoria**, et un **mode d'authentification** convenu à l'avance avec Imoria. La configuration prend moins de cinq minutes.
+</Info>
+
+## Choisir un client
+
+<CardGroup cols={2}>
+
+<Card title="Claude Desktop" href="/installation/claude-desktop" icon="desktop">
+  Le plus simple — interface dédiée, support MCP natif, multiplateforme (macOS, Windows).
+</Card>
+
+<Card title="Cursor" href="/installation/cursor" icon="code">
+  IDE de programmation avec support MCP natif. Recommandé pour un usage déjà ancré dans Cursor.
+</Card>
+
+<Card title="Claude Code (CLI)" href="/installation/claude-code" icon="terminal">
+  Client en ligne de commande. Idéal pour les usages scriptés ou en terminal.
+</Card>
+
+<Card title="Autres clients MCP" href="/installation/autres-clients" icon="puzzle-piece">
+  Cline, Windsurf, Zed, Continue, et la plupart des autres clients compatibles.
+</Card>
+
+<Card title="Connexion HTTP/SSE directe" href="/installation/http-sse" icon="network-wired">
+  Pour les intégrations custom — script, application interne, automatisation.
+</Card>
+
+</CardGroup>
+
+## Coordonnées de connexion (universelles)
+
+Tous les clients se connectent au même serveur :
+
+| Champ              | Valeur                        |
+| ------------------ | ----------------------------- |
+| URL du serveur MCP | `https://api.imoria.fr/mcp`   |
+| Transport          | HTTP/SSE (Server-Sent Events) |
+
+L'authentification est définie selon les modalités d'accès convenues avec Imoria — elle n'est pas couverte par cette documentation publique.
+
+## Vérifier que la connexion fonctionne
+
+Une fois le client configuré et l'authentification en place, ouvrir une conversation et taper :
+
+```text title="Prompt de vérification"
+Liste les outils disponibles dans Imoria.
+```
+
+La réponse doit mentionner au moins `search_ads`, `estimate_ad_value`, et `analyze_location`. Si rien ne s'affiche, retourner à la page du client choisi et reprendre les étapes.
+
+Quand la connexion est validée, passer au [premier prompt](premier-prompt).

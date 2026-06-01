@@ -1,0 +1,104 @@
+---
+title: "Référence outils (power user)"
+description: Pour les usages avancés — nom des outils MCP exposés par Imoria et leurs paramètres principaux.
+---
+
+Cette page récapitule les outils MCP qu'Imoria expose aux usages publics. Elle s'adresse aux développeurs ou aux utilisateurs avancés qui veulent appeler le serveur directement, écrire un script, ou comprendre ce que le client IA fait sous le capot.
+
+<Info>
+  Pour un usage depuis Claude Desktop, Cursor ou tout autre client IA grand public, la connaissance de ces outils n'est **pas nécessaire** — la question se pose en français, le client choisit l'outil. Cette page sert pour les usages scriptés ou intégrés.
+</Info>
+
+## Recherche & découverte
+
+### `search_ads`
+
+Recherche par mots-clés et critères stricts. Pagination par prix ou date.
+
+**Paramètres clés** : `query`, `category`, `minPrice`, `maxPrice`, `sellerType` (`PARTICULIER` | `PRO`), `department`, `sort`, `limit`, `offset`, `polygon`, `status` (`ACTIVE` | `DISAPPEARED`).
+
+### `search_ads_hybrid`
+
+Recherche hybride keyword + sémantique fusionnée par RRF (Reciprocal Rank Fusion). Combine la précision des mots-clés et la souplesse du sens.
+
+**Paramètres** : tous ceux de `search_ads`, plus une intention sémantique.
+
+### `search_ads_semantic`
+
+Recherche purement sémantique. Idéale pour décrire un bien sans mots-clés précis.
+
+**Paramètres clés** : `query` (texte libre), `department`, `city`, fourchettes `price` / `surface`, `dpeMinClass`, `polygon`, `nearPoi`.
+
+### `get_ad_by_id`
+
+Détails complets d'une annonce.
+
+**Paramètres** : `adId` (UUID).
+
+### `find_comparables`
+
+Les K biens les plus proches d'une annonce donnée.
+
+**Paramètres** : `adId`, `k` (1–50, défaut 10).
+
+### `find_undervalued_ads`
+
+Annonces actives sous-cotées d'au moins ~15 % par rapport à leur cohorte locale.
+
+**Paramètres** : tous les filtres de cohorte (`archetype`, `city`, `department`, `polygon`, `near`, `minPrice`–`maxPrice`, `minSurfaceM2`–`maxSurfaceM2`, `minBedrooms`–`maxBedrooms`, `energyRate`, `nearPoi`, `nearTransaction`).
+
+**Retourne** : `dealScorePct`, `confidence` (h/m/l).
+
+## Valuation & analyse de marché
+
+### `estimate_ad_value`
+
+Fourchette P25–P75 de valeur estimée pour une annonce, avec verdict (`below` / `in_line` / `above`) et contexte (DVF, DPE, calibration).
+
+**Paramètres** : `adId`.
+
+### `query_real_estate`
+
+Agrégation flexible sur le catalogue. Deux modes : `list` (annonces classées) ou `aggregate` (statistiques de prix).
+
+**Paramètres** : `mode`, `archetype`, filtres géo (`department`, `city`, `polygon`, `near`, `nearPoi`), fourchettes (`price`, `surface`, `bedrooms`), `energyRate`, `nearTransaction`.
+
+### `query_market_trend`
+
+Série temporelle d'une métrique sur une cohorte, par semaine / mois / trimestre.
+
+**Paramètres** : filtres de cohorte, `metric` (`median_ppm2`, `p25_ppm2`, `p75_ppm2`, `median_price`, `avg_price`, `active_count`, `new_count`, `disappeared_count`), `granularity`, `dateFrom`–`dateTo`, `groupBy` (optionnel), `trailingPeriods`.
+
+### `analyze_location`
+
+Vue 360° d'un lieu — cadastre, DVF récentes, DPE proche, distribution des annonces, calibration prix demandés ↔ prix vendus du micro-marché.
+
+**Paramètres** : `lat`, `lng`, `radiusMeters` (défaut 1000, jusqu'à 10 000).
+
+**Retourne** : un éventuel `coverageNotice` pour les départements Alsace-Moselle.
+
+## Outils géographiques
+
+### `geocode_place`
+
+Résoud un nom de lieu français en coordonnées GPS.
+
+**Paramètres** : `query`, `index` (`address` | `poi`), `limit` (1–10).
+
+### `list_poi_categories`
+
+Liste exhaustive des codes POI INSEE BPE (~229 catégories — éducation, transport, commerce, santé, sport, services, tourisme).
+
+**Paramètres** : aucun.
+
+**Retourne** : `[{ code, label, domain, count }]`.
+
+## Endpoint
+
+Tous les appels passent par HTTPS sur la base `https://api.imoria.fr/mcp`. Le protocole utilisé est JSON-RPC 2.0 over HTTP, avec support SSE pour les flux longs.
+
+Voir [Connexion HTTP/SSE directe](../demarrer/installation/http-sse) pour des exemples d'appels concrets.
+
+## OpenAPI
+
+Quand l'OpenAPI sera publié officiellement, il sera référencé ici comme un bloc OpenAPI navigable — paramètres, réponses, et exemples par endpoint.

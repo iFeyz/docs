@@ -1,0 +1,115 @@
+---
+title: "Recherche sémantique"
+description: Décrire un bien en langage naturel — Imoria classe les annonces par proximité conceptuelle, même sans mots-clés exacts.
+---
+
+La recherche par critères suppose une cible bien définie (T2, Nancy, sous 180 k€). La recherche sémantique fonctionne à l'inverse : la description tient en une phrase floue ("une maison de caractère avec du potentiel rénov en Bretagne"), et Imoria classe les annonces qui collent le mieux à l'idée — même si leurs vendeurs n'ont pas utilisé les mêmes mots.
+
+<Info>
+  La recherche sémantique fonctionne sur l'**embedding** du texte des annonces (titre + description). Plus la description est vivante côté vendeur, plus le matching est précis.
+</Info>
+
+## Exemple de prompt
+
+```text title="Dans le client IA"
+Cherche des maisons de caractère avec un jardin d'au moins 500 m², près de Metz, budget maximum 250 000 €.
+```
+
+## Ce qu'Imoria renvoie
+
+Une liste classée par **similarité sémantique** (score de 0 à 1). Chaque ligne contient les champs habituels d'une annonce, plus :
+
+| Champ             | Signification                                                                 |
+| ----------------- | ----------------------------------------------------------------------------- |
+| `similarity`      | Score de proximité sémantique (1 = très proche, 0,5 = lointain mais possible) |
+| `matchedSnippets` | Extraits du titre/description qui ont contribué au match                      |
+
+Les filtres durs (ville, prix, surface) sont appliqués **avant** le ranking sémantique — ils restent stricts. C'est le **classement** qui est sémantique.
+
+**Exemple de réponse réelle :**
+
+```text title="Réponse Imoria"
+9 annonces classées par sens — « maisons de caractère, jardin > 500 m², près de Metz, < 250 k€ »
+
+#1  Maison 142 m² Verny           228 000 €     similarity 0.91
+    Terrain 720 m². Cachet d'époque.
+    > « belles pierres apparentes, charme préservé, jardin clos »
+    > « ancienne ferme rénovée avec cheminée d'origine »
+
+#2  Maison 118 m² Pournoy-la-Grasse   195 000 €  similarity 0.87
+    Terrain 850 m². Hauts plafonds.
+    > « maison de maître XIXe avec parquet d'origine »
+
+#3  Maison 105 m² Cuvry            188 000 €     similarity 0.84
+    Terrain 590 m². Caractère.
+    > « ancienne grange transformée, poutres apparentes »
+
+... [6 de plus]
+
+Filtres durs appliqués: dept=57, archetype=maison, maxPrice=250000, minLandM2=500
+Classement: similarité décroissante (cosinus normalisé 0 à 1)
+```
+
+## Variations à essayer
+
+<Tabs>
+
+<Tab title="Description très libre">
+```text
+Trouve des appartements avec beaucoup de cachet, hauts plafonds, idéalement avec une cheminée, à Strasbourg, T3 ou T4, max 350 000 €.
+```
+</Tab>
+
+<Tab title="Bien atypique">
+```text
+Cherche des biens atypiques — lofts, anciens ateliers, granges aménagées — en Meurthe-et-Moselle, budget 200 à 400 000 €.
+```
+</Tab>
+
+<Tab title="Croisé avec un usage">
+```text
+Trouve des maisons adaptées à un projet de chambre d'hôtes en Lorraine, plusieurs chambres, jardin, dépendances appréciées.
+```
+</Tab>
+
+</Tabs>
+
+## Limites
+
+- Une description très générique ("un appartement") produit un classement peu différent d'une recherche par critères classique. La recherche sémantique brille quand la description est **spécifique mais non chiffrable**.
+- Les vendeurs qui écrivent des descriptions très courtes ressortent moins bien — leurs annonces sont sémantiquement pauvres.
+
+<Card href="/ressources/limites-et-couvertures#adresses-masquees-sur-les-annonces" icon="link" horizontal>
+  Voir : adresses-masquees-sur-les-annonces
+</Card>
+
+## Et après ?
+
+<CardGroup cols={2}>
+
+<Card title="Inspecter une annonce" href="/inspecter-annonce" icon="magnifying-glass">
+  Plonger dans le détail d'un bien repéré.
+</Card>
+
+<Card title="Estimer la valeur" href="/evaluer/estimer-valeur" icon="scale-balanced">
+  Vérifier si le prix est aligné avec le marché.
+</Card>
+
+</CardGroup>
+
+<Accordion title="Avancé — outil MCP et paramètres">
+Cette page utilise principalement `search_ads_semantic` (et parfois `search_ads_hybrid` quand Imoria combine sémantique et keyword).
+
+Paramètres :
+
+- `query` — texte libre, c'est la requête sémantique
+- `department`, `city`, `polygon` — filtres géographiques durs
+- `minPrice` / `maxPrice` — fourchette de prix
+- `minSurfaceM2` / `maxSurfaceM2` — fourchette de surface
+- `minBedrooms` / `maxBedrooms` — chambres
+- `dpeMinClass` — DPE minimum
+- `nearPoi` — proximité à un type de POI
+- `limit` / `offset` — pagination
+
+Retourne `similarity` (cosinus, 0–1) en plus des champs d'annonce.
+</Accordion>

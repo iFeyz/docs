@@ -1,0 +1,82 @@
+---
+title: "Glossaire immo"
+description: Définitions courtes des termes immobiliers et techniques utilisés dans Imoria.
+---
+
+Les termes qui reviennent dans les réponses d'Imoria, expliqués en deux lignes.
+
+### Archétype
+
+Catégorie de bien : `appartement`, `maison`, `terrain`, `local commercial`, `parking`, etc. Sert à comparer des biens entre pairs.
+
+### Comparable
+
+Bien similaire utilisé pour estimer la valeur d'une annonce — même typologie, même secteur, surface proche (±20 % en général), mêmes caractéristiques principales (DPE, étage, parking).
+
+### Confiance (`high` / `medium` / `low`)
+
+Indicateur de robustesse d'une estimation. Plus il y a de comparables et plus leur dispersion est faible, plus la confiance est haute.
+
+### Décote
+
+Écart entre le prix demandé d'une annonce et le prix médian de sa cohorte locale, exprimé en pourcentage. Une décote de -18 % signifie "18 % sous la médiane des biens comparables".
+
+### DPE
+
+Diagnostic de performance énergétique. Note de A (très économe) à G (très énergivore). Imoria utilise le DPE le plus proche géographiquement (rayon de 50 m) pour ajuster ses estimations sur les biens dont le DPE n'est pas renseigné dans l'annonce.
+
+### DVF
+
+Demandes de Valeurs Foncières — base publique des transactions immobilières françaises gérée par la DGFiP. Couvre la France entière **sauf Alsace-Moselle** (droit local, voir [limites & couvertures](limites-et-couvertures#alsace-moselle-pas-de-dvf)).
+
+### EPCI
+
+Établissement public de coopération intercommunale (communauté de communes, métropole, etc.). Utilisé comme niveau de repli quand une commune a trop peu de données.
+
+### `€/m²` médian
+
+Prix au mètre carré médian d'une cohorte d'annonces — la moitié sont au-dessus, la moitié en-dessous. Plus stable que la moyenne face aux valeurs aberrantes.
+
+### `firstSeenAt`
+
+Date à laquelle Imoria a vu l'annonce pour la première fois. Permet de savoir depuis combien de temps un bien est sur le marché.
+
+### LMNP
+
+Loueur en Meublé Non Professionnel — statut fiscal français pour la location meublée. Beaucoup d'utilisateurs d'Imoria sont des investisseurs LMNP.
+
+### Marge de négociation
+
+Écart typique entre prix demandé et prix vendu sur un secteur donné, calculé par Imoria à partir des transactions DVF récentes croisées avec les annonces. Plus le secteur a de transactions, plus la marge est calibrée précisément.
+
+### Mutation
+
+Vente d'un bien immobilier enregistrée dans la base DVF. Inclut la date, le prix et la nature du bien.
+
+### Parcelle (cadastre)
+
+Identifiant unique d'un terrain au cadastre. Permet à Imoria de relier une annonce à son historique de mutations DVF quand l'adresse est suffisamment précise.
+
+### POI
+
+Point d'intérêt — école, gare, supermarché, médecin, etc. Imoria s'appuie sur la base BPE de l'INSEE qui recense environ 229 catégories.
+
+### P25 / P50 / P75
+
+Percentiles d'un échantillon. P50 est la médiane. P25 et P75 délimitent l'intervalle où se trouvent 50 % des valeurs (la moitié centrale). Une fourchette P25–P75 resserrée signale un marché homogène.
+
+### Polygone (zone custom)
+
+Forme géographique délimitant une zone de recherche. Imoria accepte des polygones GeoJSON pour cibler un quartier précis sans dépendre des limites administratives.
+
+### Recherche sémantique
+
+Recherche par sens, pas par mots-clés. Le bien est décrit en langage naturel ; Imoria classe les annonces par proximité conceptuelle, même si elles n'utilisent pas les mots exacts du prompt.
+
+### Surface utile / pondérée
+
+Surface habitable du bien. Imoria calcule le €/m² à partir de cette surface (déclarée par le vendeur).
+
+### `T1` / `T2` / `T3` / `T4` / `T5`
+
+Typologie d'appartement par nombre de pièces principales (hors cuisine et salle de bains). T1 = studio, T3 = 3 pièces (typiquement 2 chambres + séjour), etc.

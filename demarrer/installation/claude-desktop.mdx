@@ -1,0 +1,85 @@
+---
+title: "Claude Desktop"
+description: Connecter Imoria à Claude Desktop — la voie la plus simple pour les utilisateurs non-techniques.
+---
+
+Claude Desktop est l'application officielle d'Anthropic pour macOS et Windows. C'est l'option la plus simple pour la majorité des usages — pas de terminal, pas d'IDE, juste une interface de conversation.
+
+<Info>
+  Claude Desktop se télécharge sur [claude.ai/download](https://claude.ai/download). Un compte Claude gratuit suffit pour utiliser Imoria.
+</Info>
+
+## Étapes
+
+<Steps>
+
+<Step title="Ouvrir les réglages">
+Lancer Claude Desktop. Dans le menu, aller sur **Settings → Developer → Edit Config**.
+
+Sur macOS, le fichier de configuration s'ouvre dans l'éditeur de texte par défaut, à l'emplacement `~/Library/Application Support/Claude/claude_desktop_config.json`.
+
+Sur Windows : `%APPDATA%\Claude\claude_desktop_config.json`.
+</Step>
+
+<Step title="Ajouter la configuration Imoria">
+Si le fichier est vide, coller ce contenu :
+
+```json title="claude_desktop_config.json"
+{
+  "mcpServers": {
+    "imoria": {
+      "url": "https://api.imoria.fr/mcp"
+    }
+  }
+}
+```
+
+Si le fichier contient déjà d'autres serveurs MCP, ajouter uniquement la clé `"imoria"` à l'intérieur du bloc `"mcpServers"`.
+
+Les paramètres d'authentification se configurent ensuite selon les modalités d'accès convenues avec Imoria.
+</Step>
+
+<Step title="Sauvegarder et relancer Claude Desktop">
+Sauvegarder le fichier (`Cmd+S` sur macOS, `Ctrl+S` sur Windows), puis **quitter complètement Claude Desktop** (Cmd+Q / Alt+F4 — pas seulement fermer la fenêtre). Relancer ensuite l'application.
+</Step>
+
+<Step title="Vérifier la connexion">
+Dans une nouvelle conversation, taper :
+
+```text title="Prompt de vérification"
+Liste les outils disponibles dans Imoria.
+```
+
+Une icône d'outil apparaît dans la barre d'entrée (un petit symbole signalant l'accès à des outils MCP), et la réponse doit mentionner `search_ads`, `estimate_ad_value`, `analyze_location` et d'autres.
+</Step>
+
+</Steps>
+
+## Diagnostic rapide
+
+<Tabs>
+
+<Tab title="L'icône MCP n'apparaît pas">
+Claude Desktop n'a pas chargé la configuration :
+
+- Vérifier que l'application a bien été **quittée complètement** (Cmd+Q), pas seulement réduite ou fermée.
+- Ouvrir `claude_desktop_config.json` et vérifier qu'il s'agit de **JSON valide** — pas de virgule en trop, pas de guillemets manquants. Coller le contenu dans [jsonlint.com](https://jsonlint.com) pour valider.
+  </Tab>
+
+<Tab title="Le serveur reste déconnecté">
+Plusieurs causes possibles :
+
+- Vérifier que l'URL est exactement `https://api.imoria.fr/mcp` (sans slash final, sans typo).
+- Vérifier que les modalités d'authentification ont bien été appliquées selon les conditions convenues.
+- Tester la connectivité réseau en ouvrant `https://api.imoria.fr/mcp/health` dans un navigateur — la réponse attendue est un JSON `{"status":"ok"}`.
+  </Tab>
+
+<Tab title="Derrière un proxy d'entreprise">
+Demander à l'équipe IT d'autoriser `*.imoria.fr` sur le port 443. Les proxies avec inspection TLS peuvent nécessiter une configuration supplémentaire.
+</Tab>
+
+</Tabs>
+
+## Et après ?
+
+Une fois la connexion validée, passer au [Premier prompt](../premier-prompt) pour voir trois exemples concrets.
